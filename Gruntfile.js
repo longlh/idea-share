@@ -155,6 +155,26 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		ngtemplates: {
+			idea: {
+				cwd: 'client/app',
+				src: 'views/**/*.html',
+				dest: 'build/.tmp/views/ng-templates.js',
+				options: {
+					prefix: '/',
+					htmlmin: {
+						collapseBooleanAttributes: true,
+						collapseWhitespace: true,
+						removeAttributeQuotes: true,
+						removeComments: true, // Only if you don't use comment directives!
+						removeEmptyAttributes: true,
+						removeRedundantAttributes: true,
+						removeScriptTypeAttributes: true,
+						removeStyleLinkTypeAttributes: true
+					}
+				}
+			}
+		},
 		watch: {
 			options: {
 				maxListeners: 99,
@@ -169,6 +189,7 @@ module.exports = function(grunt) {
 					'<%= jshint.client.src %>',
 					'client/assets/img/**',
 					'client/assets/stylus/**/*.styl',
+					'client/app/views/**/*.html',
 					'!client/assets/stylus/_define.styl',
 					'!build/**'
 				],
@@ -192,6 +213,6 @@ module.exports = function(grunt) {
 	require('load-grunt-tasks')(grunt);
 
 	grunt.registerTask('verify', [ 'jshint' ]);
-	grunt.registerTask('build', [ 'clean:build', 'filerev:img', 'replace', 'stylus', 'csslint', 'cssmin', 'uglify', 'filerev:css', 'filerev:js', 'filerev_assets', 'clean:tmp' ]);
+	grunt.registerTask('build', [ 'clean:build', 'filerev:img', 'replace', 'stylus', 'csslint', 'cssmin', 'ngtemplates', 'uglify', 'filerev:css', 'filerev:js', 'filerev_assets', 'clean:tmp' ]);
 	grunt.registerTask('default', [ 'verify', 'build', 'express:dev', 'watch' ]);
 };

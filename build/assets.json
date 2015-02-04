@@ -1,8 +1,15 @@
 {
 	"js": {
-
+		"build/.tmp/jsmin/boot.js": [
+			"client/vendors/angular/angular.min.js",
+			"client/vendors/angular-route/angular-route.min.js",
+			"client/app/**/*.js",
+			"build/.tmp/views/ng-templates.js"
+		]
 	},
 	"css": {
-
+		"build/.tmp/cssmin/index.css": [
+			"build/.tmp/css/index.css"
+		]
 	}
 }

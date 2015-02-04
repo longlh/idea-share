@@ -1,1 +1,14 @@
-<% extend '_share/layout.ect' %>
+<!DOCTYPE html>
+<html data-ng-app="idea">
+	<head>
+		<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0">
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900?subset=latin,vietnamese">
+		<link rel="stylesheet" href="<%= @__css('index.css') %>">
+	</head>
+	<body>
+		<div class="body">
+			<x-ng-view></x-ng-view>
+		</div>
+		<script src="<%= @__js('boot.js') %>"></script>
+	</body>
+</html>
