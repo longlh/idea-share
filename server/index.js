@@ -1,6 +1,8 @@
 'use strict';
 
-var express = require('express'),
+var bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),
+    express = require('express'),
 	fs = require('fs'),
 	mongoose = require('mongoose'),
 	path = require('path');
@@ -23,6 +25,16 @@ if (conf.env === 'development') {
 	app.use(express.static(path.resolve(conf.root, 'build/public')));
 	app.use(express.static(path.resolve(conf.root, 'upload')));
 }
+
+// use body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true,
+    limit: '20mb'
+}));
+
+// use cookie-parser
+app.use(cookieParser());
 
 // AUTOLOAD: server/models/*
 fs.readdirSync(path.resolve(__dirname, 'models')).forEach(function(file) {

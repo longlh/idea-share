@@ -158,7 +158,7 @@ module.exports = function(grunt) {
 		ngtemplates: {
 			idea: {
 				cwd: 'client/app',
-				src: 'views/**/*.html',
+				src: '**/*.html',
 				dest: 'build/.tmp/views/ng-templates.js',
 				options: {
 					prefix: '/',
@@ -189,7 +189,7 @@ module.exports = function(grunt) {
 					'<%= jshint.client.src %>',
 					'client/assets/img/**',
 					'client/assets/stylus/**/*.styl',
-					'client/app/views/**/*.html',
+					'client/app/**/*.html',
 					'!client/assets/stylus/_define.styl',
 					'!build/**'
 				],

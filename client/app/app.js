@@ -1,31 +1,34 @@
 ;(function() {
 	'use strict';
+	var validateSession = function validate($q, Session) {
+		return Session.current ? Session.current.$validate() : $q.reject();
+	};
+
+	validateSession.$inject = [ '$q', 'share.models.Session' ];
 
 	angular
-			.module('idea', [ 'ngRoute' ])
-			.config([ '$routeProvider', function($routeProvider) {
+			.module('idea', [ 'ngCookies', 'ngResource', 'ngRoute' ])
+			.config([ '$routeProvider', function configurate($routeProvider) {
 
 				$routeProvider.when('/', {
 					redirectTo: '/dashboard'
 				}).when('/dashboard', {
 					controller: 'Dashboard',
-					templateUrl: '/views/dashboard.html',
+					templateUrl: '/modules/dashboard/views/dashboard.html',
 					resolve: {
-						auth: ['$q', function($q) {
-							console.log('x');
-							// return $q.reject('/sign-in');
-						} ]
+						session: validateSession
 					}
 				}).when('/sign-in', {
-					templateUrl: '/views/sign-in.html'
+					controller: 'auth.SignIn',
+					templateUrl: '/modules/auth/views/sign-in.html'
 				});
-
-
 
 			} ])
-			.run([ '$rootScope', function($rootScope) {
+			.run([ '$rootScope', '$location', function init($rootScope, $location) {
+
 				$rootScope.$on('$routeChangeError', function(e) {
-					location.replace('/sign-in');
+					$location.url('/sign-in');
 				});
+
 			} ]);
 }());
