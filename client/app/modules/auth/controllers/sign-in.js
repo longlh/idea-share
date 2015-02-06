@@ -11,7 +11,7 @@
 		$scope.signIn = function() {
 
 			Session.create($scope.credential).$promise.then(function onSuccess(session) {
-				// $location.url('/');
+				$location.url('/');
 			});
 
 		};

@@ -11,6 +11,9 @@
 	"css": {
 		"build/.tmp/cssmin/index.css": [
 			"build/.tmp/css/index.css"
+		],
+		"build/.tmp/cssmin/invitation.css": [
+			"build/.tmp/css/invitation.css"
 		]
 	}
 }

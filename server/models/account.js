@@ -4,7 +4,7 @@ var crypto = require('crypto'),
 	mongoose = require('mongoose');
 
 // schema
-var UserSchema = mongoose.Schema({
+var AccountSchema = mongoose.Schema({
 	email: {
 		type: String,
 		required: true
@@ -25,7 +25,7 @@ var UserSchema = mongoose.Schema({
 });
 
 // methods
-UserSchema.methods = {
+AccountSchema.methods = {
 	makeSalt: function() {
 		return crypto.randomBytes(1 << 4).toString('base64');
 	},
@@ -44,10 +44,10 @@ UserSchema.methods = {
 };
 
 // virtuals
-UserSchema.virtual('password').set(function(password) {
+AccountSchema.virtual('password').set(function(password) {
 	this.salt = this.makeSalt();
 	this.hashedPassword = this.makeHashedPassword(password);
 });
 
 
-mongoose.model('User', UserSchema);
+mongoose.model('Account', AccountSchema);

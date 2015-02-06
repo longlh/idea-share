@@ -5,7 +5,7 @@ var bird = require('bluebird'),
 	redis = require('redis'),
 	uuid = require('node-uuid');
 
-var User = mongoose.model('User'),
+var Account = mongoose.model('Account'),
 	client = redis.createClient(),
 	self = module.exports;
 
@@ -14,9 +14,9 @@ var rGet = bird.promisify(client.get, client),
 	rSet = bird.promisify(client.set, client),
 	rExpire = bird.promisify(client.expire, client);
 
-var enforceSession = function(token, user) {
+var enforceSession = function(token, account) {
 
-	return rSet('session:' + token, user.id).then(function saveTokenDone(reply) {
+	return rSet('session:' + token, account.id).then(function saveTokenDone(reply) {
 
 		return rExpire('session:' + token, 60e3);
 
@@ -24,7 +24,7 @@ var enforceSession = function(token, user) {
 
 		return {
 			token: token,
-			id: user.id
+			id: account.id
 		};
 
 	});
@@ -38,17 +38,17 @@ self.validateSession = function(req, res, next) {
 	rGet('session:' + token).then(function(id) {
 
 		if (id) {
-			var query = User.findById(id),
-				findUser = bird.promisify(query.exec, query);
+			var query = Account.findById(id),
+				findAccount = bird.promisify(query.exec, query);
 
-			return findUser();
+			return findAccount();
 		}
 
 		return bird.reject();
 
-	}).then(function findUserDone(user) {
+	}).then(function findAccountDone(account) {
 
-		return enforceSession(token, user);
+		return enforceSession(token, account);
 
 	}).then(function enforceSessionDone(session) {
 
@@ -64,13 +64,13 @@ self.validateSession = function(req, res, next) {
 
 self.signIn = function(req, res, next) {
 
-	var query = User.findOne({
+	var query = Account.findOne({
 			email: req.body.email,
 			enable: true
 		}),
-		findUser = bird.promisify(query.exec, query);
+		findAccount = bird.promisify(query.exec, query);
 
-	findUser().then(function findUserDone(user) {
+	findAccount().then(function findAccountDone(account) {
 		// if (user) {
 		// 	return [ user ];
 		// }
@@ -87,10 +87,10 @@ self.signIn = function(req, res, next) {
 	// }).then(function onSuccess(results) {
 	// 	var user = results[0];
 
-		if (user && user.authenticate(req.body.password)) {
+		if (account && account.authenticate(req.body.password)) {
 			var token = uuid.v4();
 
-			return enforceSession(token, user);
+			return enforceSession(token, account);
 		} else {
 			return bird.reject();
 		}

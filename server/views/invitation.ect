@@ -1,0 +1,17 @@
+<% extend '_share/layout.ect' %>
+
+<% block 'end-head': %>
+<link rel="stylesheet" href="<%= @__css('invitation.css') %>">
+<% end %>
+
+<h1>Invitation</h1>
+<% if @invitation: %>
+<form action="<%= @_url('page.invitation', { code: @invitation.code }) %>" method="post" autocomplete="off">
+<input type="hidden" name="invitation" value="<%= @invitation.id %>">
+<input type="text" name="email" value="<%= @invitation.email %>" placeholder="Email" required><br>
+<input type="password" name="password" placeholder="Password" required><br>
+<button type="submit">Create account</button>
+</form>
+<% else: %>
+<p>The requested invitation is expired or used</p>
+<% end %>
