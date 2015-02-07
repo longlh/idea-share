@@ -12,6 +12,7 @@ var Account = mongoose.model('Account'),
 // promisify
 var rGet = bird.promisify(client.get, client),
 	rSet = bird.promisify(client.set, client),
+	rDel = bird.promisify(client.del, client),
 	rExpire = bird.promisify(client.expire, client);
 
 var enforceSession = function(token, account) {
@@ -62,6 +63,17 @@ self.validateSession = function(req, res, next) {
 
 };
 
+self.destroySession = function(req, res, next) {
+
+	var token = req.params.token;
+
+	rDel('session:' + token).finally(function done() {
+
+		res.status(204).end();
+
+	});
+};
+
 self.signIn = function(req, res, next) {
 
 	var query = Account.findOne({
@@ -71,21 +83,6 @@ self.signIn = function(req, res, next) {
 		findAccount = bird.promisify(query.exec, query);
 
 	findAccount().then(function findAccountDone(account) {
-		// if (user) {
-		// 	return [ user ];
-		// }
-
-		// user = new User();
-		// user.email = req.body.email;
-		// user.password = req.body.password;
-
-		// console.log(user);
-
-		// var save = bird.promisify(user.save, user);
-
-		// return save();
-	// }).then(function onSuccess(results) {
-	// 	var user = results[0];
 
 		if (account && account.authenticate(req.body.password)) {
 			var token = uuid.v4();
@@ -100,6 +97,8 @@ self.signIn = function(req, res, next) {
 		res.json(session);
 
 	}).catch(function onError(e) {
+
+		console.log(e);
 
 		res.status(401).json(e);
 

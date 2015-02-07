@@ -19,11 +19,16 @@ function findInvitation(code) {
 
 self.render = function(req, res, next) {
 
-	var code = req.params.code;
+	var code = req.params.code,
+		email = req.query.email;
 
 	findInvitation(code).then(function findInvitationDone(invitation) {
 		if (!invitation) {
 			return bird.reject();
+		}
+
+		if (email) {
+			invitation.email = email;
 		}
 
 		res.render('invitation', {
@@ -39,37 +44,48 @@ self.render = function(req, res, next) {
 
 self.process = function(req, res, next) {
 
-	var code = req.params.code;
+	var code = req.params.code,
+		email = req.body.email,
+		password = req.body.password,
+		usingInvitation;
 
 	findInvitation(code).then(function findInvitationDone(invitation) {
 
-		if (!invitation.used) {
-			// set invitation is used
-			invitation.used = true;
+		// invitation is matched with code and not used yet
+		if (invitation) {
+			// store working invitation
+			usingInvitation = invitation;
 
 			var account = new Account({
-					email: req.body.email,
-					password: req.body.password
+					email: email,
+					password: password
 				}),
-				createAccount = bird.promisify(account.save, account),
-				useInvitation = bird.promisify(invitation.save, invitation);
+				createAccount = bird.promisify(account.save, account);
 
-			return bird.all([
-				useInvitation(),
-				createAccount()
-			]);
+			return createAccount();
 		}
 
 		return bird.reject();
 
-	}).then(function createAccountDone() {
+	}).spread(function createAccountDone() {
+
+		var consumeInvitation = bird.promisify(usingInvitation.save, usingInvitation);
+
+		usingInvitation.used = true;
+
+		return consumeInvitation();
+
+	}).spread(function consumeInvitationDone() {
 
 		res._redirect('page.index');
 
 	}).catch(function handleError(error) {
 
+		console.info(error);
+
 		res._redirect('page.invitation', {
-			code: code
+			code: code,
+			email: email
 		});
 
 	});

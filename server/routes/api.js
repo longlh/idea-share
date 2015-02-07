@@ -8,9 +8,5 @@ module.exports = function(app) {
 
 	app.route('/api/sessions/:token')
 			.get(auth.validateSession)
-			.delete(function destroy(req, res, next) {
-
-				res.status(204).end();
-
-			});
+			.delete(auth.destroySession);
 };

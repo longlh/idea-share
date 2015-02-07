@@ -1,18 +1,17 @@
 {
-  "name": "ntq-website",
+  "name": "idea-share",
   "version": "0.0.1",
   "authors": [
-    "LongLH <long.luc@ntq-solution.com.vn>"
+    "LongLH <d@dapps.me>"
   ],
-  "description": "Source code of ntq-solution.com.vn",
+  "description": "Close discussion board for ideas",
   "license": "MIT",
-  "homepage": "ntq-solution.com.vn",
+  "homepage": "indie.codes",
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "client/vendors",
+    "test"
   ],
   "dependencies": {
     "angular": "~1.3.12",

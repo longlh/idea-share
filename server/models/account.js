@@ -7,7 +7,10 @@ var crypto = require('crypto'),
 var AccountSchema = mongoose.Schema({
 	email: {
 		type: String,
-		required: true
+		required: true,
+		index: {
+			unique: true
+		}
 	},
 	hashedPassword: {
 		type: String,

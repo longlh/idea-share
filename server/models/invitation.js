@@ -5,7 +5,10 @@ var mongoose = require('mongoose');
 var InvitationSchema = mongoose.Schema({
 	code: {
 		type: String,
-		required: true
+		required: true,
+		index: {
+			unique: true
+		}
 	},
 	used: {
 		type: Boolean,
