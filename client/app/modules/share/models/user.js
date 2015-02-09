@@ -1,7 +1,7 @@
 ;(function () {
 	'use strict';
 
-	angular.module('idea').factory('share.models.User', [ '$resource', function init($resource) {
+	angular.module('app.share').factory('app.share.models.User', [ '$resource', function init($resource) {
 		var User = $resource('/api/users/:id', {
 			id: '@id'
 		}, {

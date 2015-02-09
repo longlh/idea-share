@@ -1,0 +1,15 @@
+@import 'kouto-swiss'
+@require '_define.styl'
+
+gs-col-no = 10
+
+body
+	gs('fluid', gs-col-no)
+
+.row
+	row()
+	clearfix()
+
+for num in (1..gs-col-no)
+	.col-{num}
+		col(num)

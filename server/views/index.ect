@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html data-ng-app="idea">
+<html data-ng-app="app">
 	<head>
 		<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0">
 		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900?subset=latin,vietnamese">
 		<link rel="stylesheet" href="<%= @__css('index.css') %>">
 	</head>
-	<body>
-		<div class="body">
-			<div data-ng-view></div>
-		</div>
+	<body data-ng-controller="app.share.controllers.Main as main">
+		<section data-ng-if="main.isAuthenticated()" data-ng-include="'/modules/share/views/top.html'" data-ng-cloak></section>
+		<div data-ng-view></div>
 		<script src="<%= @__js('boot.js') %>"></script>
 	</body>
 </html>

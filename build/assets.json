@@ -4,8 +4,12 @@
 			"client/vendors/fingerprint/fingerprint.js",
 			"client/vendors/angular/angular.min.js",
 			"client/vendors/angular-*/angular-*.min.js",
-			"client/app/**/*.js",
-			"build/.tmp/views/ng-templates.js"
+			"client/app/modules/share/module.js",
+			"client/app/modules/share/*/*.js",
+			"build/.tmp/views/ng-templates.js",
+			"client/app/modules/**/module.js",
+			"client/app/modules/**/*/*.js",
+			"client/app/app.js"
 		]
 	},
 	"css": {

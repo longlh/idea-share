@@ -1,11 +1,13 @@
 ;(function() {
 	'use strict';
 
-	var Dashboard = function($scope) {
-		alert('x');
+	var Dashboard = function() {
+
+		console.log('enter dashboard');
+
 	};
 
-	Dashboard.$inject = [ '$scope' ];
+	Dashboard.$inject = [];
 
-	angular.module('idea').controller('Dashboard', Dashboard);
+	angular.module('app.dashboard').controller('app.dashboard.controllers.Dashboard', Dashboard);
 }());

@@ -1,10 +1,12 @@
 ;(function () {
 	'use strict';
+	var COOKIE_KEY_TOKEN = 'token';
+
 	var fingerprint = new window.Fingerprint({
 		canvas: true
 	}).get();
 
-	var SessionFactory = function($cookies, $resource) {
+	var SessionFactory = function($cookieStore, $resource) {
 		// internal storage
 		var _session = null;
 
@@ -14,7 +16,7 @@
 				_session = response.resource;
 
 				// store token in cookies
-				$cookies.token = _session.token;
+				$cookieStore.put(COOKIE_KEY_TOKEN, _session.token);
 
 				return _session;
 			}
@@ -36,7 +38,7 @@
 						_session = null;
 
 						// clear cookie
-						$cookies.token = null;
+						$cookieStore.remove(COOKIE_KEY_TOKEN);
 
 						return response;
 					}
@@ -48,21 +50,14 @@
 			}
 		});
 
-		Object.defineProperty(Session.prototype, 'password', {
-			set: function(value) {
-				// create hashedPassword
-				this.hashedPassword = value;
-			}
-		});
-
 		Object.defineProperty(Session, 'current', {
 			get: function() {
 				if (_session) {
 					return _session;
-				} else if ($cookies.token) {
+				} else if ($cookieStore.get(COOKIE_KEY_TOKEN)) {
 					// get session from cookie
 					return new Session({
-						token: $cookies.token
+						token: $cookieStore.get(COOKIE_KEY_TOKEN)
 					});
 				}
 			}
@@ -71,7 +66,7 @@
 		return Session;
 	};
 
-	SessionFactory.$inject = [ '$cookies', '$resource' ];
+	SessionFactory.$inject = [ '$cookieStore', '$resource' ];
 
-	angular.module('idea').factory('share.models.Session', SessionFactory);
+	angular.module('app.share').factory('app.share.models.Session', SessionFactory);
 }());

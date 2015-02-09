@@ -87,7 +87,8 @@ module.exports = function(grunt) {
 		uglify: {
 			min: {
 				options: {
-					sourceMap: false
+					sourceMap: false,
+					beautify: true
 				},
 				files: require('./' + assetDef).js
 			}
@@ -156,7 +157,7 @@ module.exports = function(grunt) {
 			}
 		},
 		ngtemplates: {
-			idea: {
+			'app.share': {
 				cwd: 'client/app',
 				src: '**/*.html',
 				dest: 'build/.tmp/views/ng-templates.js',
@@ -213,6 +214,6 @@ module.exports = function(grunt) {
 	require('load-grunt-tasks')(grunt);
 
 	grunt.registerTask('verify', [ 'jshint' ]);
-	grunt.registerTask('build', [ 'clean:build', 'filerev:img', 'replace', 'stylus', 'csslint', 'cssmin', 'ngtemplates', 'uglify', 'filerev:css', 'filerev:js', 'filerev_assets', 'clean:tmp' ]);
+	grunt.registerTask('build', [ 'clean:build', 'filerev:img', 'replace', 'stylus', 'cssmin', 'ngtemplates', 'uglify', 'filerev:css', 'filerev:js', 'filerev_assets', 'clean:tmp' ]);
 	grunt.registerTask('default', [ 'verify', 'build', 'express:dev', 'watch' ]);
 };
