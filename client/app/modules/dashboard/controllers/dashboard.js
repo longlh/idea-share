@@ -1,13 +1,13 @@
 ;(function() {
 	'use strict';
 
-	var Dashboard = function() {
+	var Dashboard = function(session) {
 
-		console.log('enter dashboard');
+		console.log(session);
 
 	};
 
-	Dashboard.$inject = [];
+	Dashboard.$inject = [ 'session' ];
 
 	angular.module('app.dashboard').controller('app.dashboard.controllers.Dashboard', Dashboard);
 }());

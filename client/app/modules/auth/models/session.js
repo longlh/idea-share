@@ -68,5 +68,5 @@
 
 	SessionFactory.$inject = [ '$cookieStore', '$resource' ];
 
-	angular.module('app.share').factory('app.share.models.Session', SessionFactory);
+	angular.module('app.auth').factory('app.auth.models.Session', SessionFactory);
 }());

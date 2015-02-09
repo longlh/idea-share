@@ -157,11 +157,13 @@ module.exports = function(grunt) {
 			}
 		},
 		ngtemplates: {
-			'app.share': {
+			template: {
 				cwd: 'client/app',
 				src: '**/*.html',
 				dest: 'build/.tmp/views/ng-templates.js',
 				options: {
+					standalone: true,
+					module: 'app.template',
 					prefix: '/',
 					htmlmin: {
 						collapseBooleanAttributes: true,

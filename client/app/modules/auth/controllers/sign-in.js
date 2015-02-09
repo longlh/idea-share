@@ -18,7 +18,7 @@
 
 	};
 
-	SignIn.$inject = [ '$location', '$scope', 'app.share.models.Session' ];
+	SignIn.$inject = [ '$location', '$scope', 'app.auth.models.Session' ];
 
 	angular.module('app.auth').controller('app.auth.controllers.SignIn', SignIn);
 }());

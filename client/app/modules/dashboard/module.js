@@ -1,8 +1,28 @@
 ;(function() {
 	'use strict';
+	var sessionResolver = function(resolver) {
+		return resolver();
+	};
 
-	console.log('x');
+	sessionResolver.$inject = [ 'app.auth.resolvers.Session' ];
+
+	var config = function($routeProvider) {
+
+		$routeProvider.when('/dashboard', {
+			controller: 'app.dashboard.controllers.Dashboard',
+			templateUrl: '/modules/dashboard/views/dashboard.html',
+			resolve: {
+				session: sessionResolver
+			}
+		});
+
+	};
+
+	config.$inject = [ '$routeProvider' ];
+
+
 	angular.module('app.dashboard', [
-		'app.share'
-	]);
+		'app.template', 'app.auth',
+		'ngRoute'
+	]).config(config);
 }());

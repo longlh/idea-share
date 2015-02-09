@@ -1,7 +1,8 @@
 ;(function() {
 	'use strict';
 
-	angular.module('app.share', [
+	angular.module('app.core', [
+		'app.template', 'app.auth',
 		'ngCookies', 'ngResource'
 	]);
 }());
