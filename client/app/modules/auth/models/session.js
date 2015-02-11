@@ -1,29 +1,22 @@
 ;(function () {
 	'use strict';
-	var COOKIE_KEY_TOKEN = 'token';
+	// var COOKIE_KEY_TOKEN = 'token';
 
-	var fingerprint = new window.Fingerprint({
-		canvas: true
-	}).get();
-
-	var SessionFactory = function($cookieStore, $resource) {
-		// internal storage
-		var _session = null;
+	var SessionFactory = function($cookieStore, $resource, Storage) {
 
 		var interceptor = {
 			response: function(response) {
 				// store current session
-				_session = response.resource;
+				Storage.session = response.resource;
 
 				// store token in cookies
-				$cookieStore.put(COOKIE_KEY_TOKEN, _session.token);
+				$cookieStore.put(Session.KEY, Storage.session.token);
 
-				return _session;
+				return Storage.session;
 			}
 		};
 
 		var Session = $resource('/api/sessions/:token', {
-			fp: fingerprint,
 			token: '@token'
 		}, {
 			create: {
@@ -35,10 +28,10 @@
 				interceptor: {
 					response: function(response) {
 						// clear session
-						_session = null;
+						Storage.session = null;
 
 						// clear cookie
-						$cookieStore.remove(COOKIE_KEY_TOKEN);
+						$cookieStore.remove(Session.KEY);
 
 						return response;
 					}
@@ -50,23 +43,27 @@
 			}
 		});
 
-		Object.defineProperty(Session, 'current', {
-			get: function() {
-				if (_session) {
-					return _session;
-				} else if ($cookieStore.get(COOKIE_KEY_TOKEN)) {
-					// get session from cookie
-					return new Session({
-						token: $cookieStore.get(COOKIE_KEY_TOKEN)
-					});
-				}
-			}
+		// Object.defineProperty(Session, 'current', {
+		// 	get: function() {
+		// 		if (_session) {
+		// 			return _session;
+		// 		} else if ($cookieStore.get(COOKIE_KEY_TOKEN)) {
+		// 			// get session from cookie
+		// 			return new Session({
+		// 				token: $cookieStore.get(COOKIE_KEY_TOKEN)
+		// 			});
+		// 		}
+		// 	}
+		// });
+
+		Object.defineProperty(Session, 'KEY', {
+			value: 'token'
 		});
 
 		return Session;
 	};
 
-	SessionFactory.$inject = [ '$cookieStore', '$resource' ];
+	SessionFactory.$inject = [ '$cookieStore', '$resource', 'app.share.models.Storage' ];
 
 	angular.module('app.auth').factory('app.auth.models.Session', SessionFactory);
 }());

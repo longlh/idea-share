@@ -1,14 +1,14 @@
 ;(function () {
 	'use strict';
 
-	var Main = function(Session) {
+	var Main = function(Storage) {
 
 		this.isAuthenticated = function() {
-			return !!Session.current;
+			return !!Storage.session;
 		};
 	};
 
-	Main.$inject = [ 'app.auth.models.Session' ];
+	Main.$inject = [ 'app.share.models.Storage' ];
 
 	angular.module('app.core').controller('app.core.controllers.Main', Main);
 }());

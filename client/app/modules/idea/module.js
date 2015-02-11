@@ -25,6 +25,6 @@
 
 	angular.module('app.idea', [
 		'app.template', 'app.auth',
-		'ngRoute'
+		'ngResource', 'ngRoute'
 	]).config(config);
 }());

@@ -1,13 +1,13 @@
 ;(function() {
 	'use strict';
 
-	var SessionResolver = function($q, Session) {
+	var SessionResolver = function($cookieStore, $q, Session, Storage) {
 		return function() {
-			return Session.current ? Session.current.$validate() : $q.reject();
+			return Storage.session ? Storage.session.$validate() : $q.reject(401);
 		};
 	};
 
-	SessionResolver.$inject = [ '$q', 'app.auth.models.Session'  ];
+	SessionResolver.$inject = [ '$cookieStore', '$q', 'app.auth.models.Session', 'app.share.models.Storage' ];
 
 	angular.module('app.auth').factory('app.auth.resolvers.Session', SessionResolver);
 }());
