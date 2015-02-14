@@ -2,6 +2,7 @@
 	'use strict';
 
 	var purgeSession = function(Storage) {
+
 		return Storage.session ? Storage.session.$destroy() : null;
 	};
 
@@ -12,6 +13,7 @@
 		return {
 			request: function(config) {
 
+				// add session.token to every request's headers if possible
 				if (Storage.session) {
 					config.headers.Authorization = Storage.session.token;
 				}
@@ -19,6 +21,7 @@
 				return config;
 			},
 			responseError: function(rejection) {
+
 				if (rejection.status === 401) {
 					$location.url('/sign-in');
 				}
@@ -30,8 +33,8 @@
 
 	authIntercepter.$inject = [ '$location', '$q', 'app.share.models.Storage' ];
 
-
 	var config = function($httpProvider, $routeProvider) {
+
 		$routeProvider.when('/sign-in', {
 			controller: 'app.auth.controllers.SignIn',
 			resolve: {
@@ -48,13 +51,16 @@
 	var run = function($cookieStore, $location, $rootScope, Session, Storage) {
 
 		$rootScope.$on('$routeChangeError', function(event, next, previous, error) {
+
 			if (error === 401) {
 				$location.url('/sign-in');
 				event.preventDefault();
 			}
 		});
 
+		// restore a not-validate-yet session from cookie
 		if (!Storage.session && $cookieStore.get(Session.KEY)) {
+
 			Storage.session = new Session({
 				token: $cookieStore.get(Session.KEY)
 			});

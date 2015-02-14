@@ -1,8 +1,9 @@
 'use strict';
 
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+	Schema = mongoose.Schema;
 
-var InvitationSchema = mongoose.Schema({
+var invitationSchema = new Schema({
 	code: {
 		type: String,
 		required: true,
@@ -22,4 +23,4 @@ var InvitationSchema = mongoose.Schema({
 	note: String
 });
 
-mongoose.model('Invitation', InvitationSchema);
+mongoose.model('Invitation', invitationSchema);

@@ -7,7 +7,9 @@
 			var id = $route.current.params.id;
 
 			if (id === 'new') {
-				return new Idea();
+				var idea = new Idea();
+
+				return idea;
 			} else {
 				return Idea.get({
 					id: id

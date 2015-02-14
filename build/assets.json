@@ -1,13 +1,13 @@
 {
 	"js": {
-		"build/.tmp/jsmin/boot.js": [
+		"build/.tmp/jsmin/idea-share.js": [
 			"client/vendors/fingerprint/fingerprint.js",
 			"client/vendors/angular/angular.min.js",
 			"client/vendors/angular-*/angular-*.min.js",
-			"client/app/modules/*/module.js",
-			"client/app/modules/*/*/**/*.js",
-			"client/app/app.js",
-			"build/.tmp/views/ng-templates.js"
+			"client/app/idea-share/modules/*/module.js",
+			"client/app/idea-share/modules/*/*/**/*.js",
+			"client/app/idea-share/app.js",
+			"build/.tmp/views/idea-share/ng-templates.js"
 		]
 	},
 	"css": {

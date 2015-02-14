@@ -1,10 +1,11 @@
 ;(function() {
 	'use strict';
 
-	var notFoundHandler = function($location, $q) {
+	var errorInterceptor = function($location, $q) {
 
 		return {
 			responseError: function(rejection) {
+
 				if (rejection.status === 404) {
 					$location.url('/404');
 				}
@@ -14,7 +15,7 @@
 		};
 	};
 
-	notFoundHandler.$inject = [ '$location', '$q' ];
+	errorInterceptor.$inject = [ '$location', '$q' ];
 
 	var config = function($httpProvider, $routeProvider) {
 
@@ -26,7 +27,7 @@
 			redirectTo: '/404'
 		});
 
-		$httpProvider.interceptors.push(notFoundHandler);
+		$httpProvider.interceptors.push(errorInterceptor);
 	};
 
 	config.$inject = [ '$httpProvider', '$routeProvider' ];

@@ -2,7 +2,9 @@
 	'use strict';
 
 	var SessionResolver = function($cookieStore, $q, Session, Storage) {
+
 		return function() {
+
 			return Storage.session ? Storage.session.$validate() : $q.reject(401);
 		};
 	};

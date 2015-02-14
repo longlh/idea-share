@@ -157,24 +157,26 @@ module.exports = function(grunt) {
 			}
 		},
 		ngtemplates: {
-			template: {
-				cwd: 'client/app',
+			options: {
+				standalone: true,
+				prefix: '/',
+				htmlmin: {
+					collapseBooleanAttributes: true,
+					collapseWhitespace: true,
+					removeAttributeQuotes: true,
+					removeComments: true, // Only if you don't use comment directives!
+					removeEmptyAttributes: true,
+					removeRedundantAttributes: true,
+					removeScriptTypeAttributes: true,
+					removeStyleLinkTypeAttributes: true
+				}
+			},
+			'idea-share': {
+				cwd: 'client/app/idea-share',
 				src: '**/*.html',
-				dest: 'build/.tmp/views/ng-templates.js',
+				dest: 'build/.tmp/views/idea-share/ng-templates.js',
 				options: {
-					standalone: true,
 					module: 'app.template',
-					prefix: '/',
-					htmlmin: {
-						collapseBooleanAttributes: true,
-						collapseWhitespace: true,
-						removeAttributeQuotes: true,
-						removeComments: true, // Only if you don't use comment directives!
-						removeEmptyAttributes: true,
-						removeRedundantAttributes: true,
-						removeScriptTypeAttributes: true,
-						removeStyleLinkTypeAttributes: true
-					}
 				}
 			}
 		},
