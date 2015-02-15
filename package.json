@@ -1,7 +1,7 @@
 {
-  "name": "idea-share",
+  "name": "indie-codes",
   "version": "0.0.1",
-  "description": "Close discussion board for ideas",
+  "description": "Close discussion board for indie.codes",
   "scripts": {
     "test": "npm test",
     "postinstall": "./node_modules/.bin/bower install --allow-root"

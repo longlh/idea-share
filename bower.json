@@ -1,10 +1,10 @@
 {
-  "name": "idea-share",
+  "name": "indie-codes",
   "version": "0.0.1",
   "authors": [
     "LongLH <d@dapps.me>"
   ],
-  "description": "Close discussion board for ideas",
+  "description": "Close discussion board for indie.codes",
   "license": "MIT",
   "homepage": "indie.codes",
   "ignore": [
