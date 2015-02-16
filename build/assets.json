@@ -1,6 +1,7 @@
 {
 	"js": {
 		"build/.tmp/jsmin/idea-share.js": [
+			"client/vendors/lodash/lodash.min.js",
 			"client/vendors/fingerprint/fingerprint.js",
 			"client/vendors/angular/angular.min.js",
 			"client/vendors/angular-*/angular-*.min.js",

@@ -1,8 +1,14 @@
 ;(function () {
 	'use strict';
 
-	var Idea = function($resource) {
-		var proto = $resource('/api/ideas/:id', {
+	function setRequireProperties(idea) {
+		if (!_.isArray(idea.fragments)) {
+			idea.fragments = [];
+		}
+	}
+
+	var IdeaFactory = function($resource) {
+		var Resource = $resource('/api/ideas/:id', {
 			id: '@id'
 		}, {
 			create: {
@@ -13,27 +19,36 @@
 			}
 		});
 
-		var IdeaConstructor = function() {
-			this.brief = 'New Idea';
+		var Idea = function(properties) {
+			var resource = new Resource(properties);
+			// Resource.apply(this, arguments);
 
-			console.log(arguments);
 
-			proto.apply(this, arguments);
+
+			setRequireProperties(resource);
+
+			return Object.create(resource);
+			// this.resource = resource;
+
+
+
+
+			// return Object.create(resource, {
+			// 	constructor: {
+			// 		configuration: true,
+			// 		enumerable: true,
+			// 		value: Idea,
+			// 		writable: true
+			// 	}
+			// });
 		};
-		IdeaConstructor.prototype = proto;
 
-		Object.setPrototypeOf(IdeaConstructor, proto);
+		// Idea.prototype = Resource;
 
-		// var IdeaClass = Object.create(proto, {
-		// 	constructor: IdeaConstructor
-		// });
-
-		// Idea.prototype = proto;
-
-		return IdeaConstructor;
+		return Idea;
 	};
 
-	Idea.$inject = [ '$resource' ];
+	IdeaFactory.$inject = [ '$resource' ];
 
-	angular.module('app.idea').factory('app.idea.models.Idea', Idea);
+	angular.module('app.idea').factory('app.idea.models.Idea', IdeaFactory);
 }());

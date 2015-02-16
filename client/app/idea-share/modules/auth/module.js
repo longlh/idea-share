@@ -26,7 +26,7 @@
 					$location.url('/sign-in');
 				}
 
-				return $.reject(rejection);
+				return $q.reject(rejection);
 			}
 		};
 	};
