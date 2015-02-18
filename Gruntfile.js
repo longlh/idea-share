@@ -1,9 +1,9 @@
 'use strict';
-var koutoSwiss = require('kouto-swiss'),
-	path = require('path');
+var koutoSwiss = require('kouto-swiss');
+var path = require('path');
 
-var assetDef = 'build/assets.json',
-	replacePatterns;
+var assetDef = 'build/assets.json';
+var replacePatterns;
 
 module.exports = function(grunt) {
 	grunt.initConfig({
@@ -21,12 +21,14 @@ module.exports = function(grunt) {
 			options: {
 				csslintrc: 'build/rules/.csslintrc',
 				absoluteFilePathsForFormatters: false,
-				formatters: [ {
+				formatters: [{
 					id: 'lint-xml',
 					dest: 'build/reports/csslint.xml'
-				} ]
+				}]
 			},
-			src: [ 'build/.tmp/css/**/*.css' ]
+			src: [
+				'build/.tmp/css/**/*.css'
+			]
 		},
 		jshint: {
 			client: {
@@ -44,7 +46,8 @@ module.exports = function(grunt) {
 				src: [
 					'server/**/*.js',
 					'env/**/*.js',
-					'app.js'
+					'app.js',
+					'Gruntfile.js'
 				],
 				options: {
 					jshintrc: 'build/rules/.jshintrc-server',
@@ -70,17 +73,19 @@ module.exports = function(grunt) {
 			dev: {
 				options: {
 					script: 'app.js',
-					node_env: 'development',
-					debug: true
+					debug: true,
+					'node_env': 'development'
 				}
 			}
 		},
 		stylus: {
 			options: {
-				use: [ koutoSwiss ]
+				use: [
+					koutoSwiss
+				]
 			},
 			compile: {
-				files: [ {
+				files: [{
 					src: [
 						'**/*.styl',
 						'!_*.styl'
@@ -100,8 +105,7 @@ module.exports = function(grunt) {
 		uglify: {
 			min: {
 				options: {
-					sourceMap: false,
-					beautify: true
+					sourceMap: false
 				},
 				files: require('./' + assetDef).js
 			}
@@ -109,16 +113,16 @@ module.exports = function(grunt) {
 		replace: {
 			stylus: {
 				options: {
-					patterns: [ {
+					patterns: [{
 						json: function(done) {
 
 							if (!replacePatterns) {
-								replacePatterns = {};
+								var imgrev = grunt.filerev.summary;
+								var keys = Object.keys(imgrev);
+								var i = 0;
+								var key;
 
-								var imgrev = grunt.filerev.summary,
-									keys = Object.keys(imgrev),
-									i = 0,
-									key;
+								replacePatterns = {};
 
 								for (i = 0; i < keys.length; i++) {
 									key = keys[i];
@@ -128,7 +132,7 @@ module.exports = function(grunt) {
 
 							done(replacePatterns);
 						}
-					} ]
+					}]
 				},
 				files: {
 					'client/assets/stylus/_define.styl' : 'client/assets/stylus/_.styl'
@@ -137,31 +141,37 @@ module.exports = function(grunt) {
 		},
 		filerev: {
 			img: {
-				files: [ {
+				files: [{
 					expand: true,
 					cwd: 'client/assets/img/',
-					src: [ '**/*' ],
+					src: [
+						'**/*'
+					],
 					dest: 'build/public/img/'
-				} ]
+				}]
 			},
 			js: {
-				files: [ {
+				files: [{
 					expand: true,
 					cwd: 'build/.tmp/jsmin',
-					src: [ '**/*' ],
+					src: [
+						'**/*'
+					],
 					dest: 'build/public/js/'
-				} ]
+				}]
 			},
 			css: {
-				files: [ {
+				files: [{
 					expand: true,
 					cwd: 'build/.tmp/cssmin',
-					src: [ '**/*' ],
+					src: [
+						'**/*'
+					],
 					dest: 'build/public/css/'
-				} ]
+				}]
 			}
 		},
-		filerev_assets: {
+		'filerev_assets': {
 			rev: {
 				options: {
 					dest: 'build/rev.json',
@@ -211,26 +221,52 @@ module.exports = function(grunt) {
 					'!client/assets/stylus/_define.styl',
 					'!build/**'
 				],
-				tasks: [ 'express:dev:stop', 'jshint:client', 'build', 'express:dev' ]
+				tasks: [
+					'jshint:client',
+					'build',
+					'express:dev'
+				]
 			},
 			server: {
 				files: [
 					'<%= jshint.server.src %>'
 				],
-				tasks: [ 'express:dev:stop', 'jshint:server', 'express:dev' ]
+				tasks: [
+					'jshint:server',
+					'express:dev'
+				]
 			},
 			ect: {
 				files: [
 					'server/views/**/*.ect'
 				],
-				tasks: [ 'express:dev:stop', 'express:dev' ]
+				tasks: [
+					'express:dev'
+				]
 			}
 		}
 	});
 	// load all plugins
 	require('load-grunt-tasks')(grunt);
 
-	grunt.registerTask('verify', [ 'jscs', 'jshint' ]);
-	grunt.registerTask('build', [ 'clean:build', 'filerev:img', 'replace', 'stylus', 'cssmin', 'ngtemplates', 'uglify', 'filerev:css', 'filerev:js', 'filerev_assets', 'clean:tmp' ]);
-	grunt.registerTask('default', [ 'verify', 'build', 'express:dev', 'watch' ]);
+	grunt.registerTask('verify', [
+		'jscs',
+		'jshint'
+	]);
+
+	grunt.registerTask('build', [
+		'clean:build',
+		'filerev:img',
+		'replace', 'stylus', 'cssmin',
+		'ngtemplates', 'uglify',
+		'filerev:css', 'filerev:js', 'filerev_assets',
+		'clean:tmp'
+	]);
+
+	grunt.registerTask('default', [
+		'verify',
+		'build',
+		'express:dev',
+		'watch'
+	]);
 };

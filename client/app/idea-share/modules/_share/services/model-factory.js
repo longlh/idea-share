@@ -19,6 +19,17 @@
 
 	var ModelFactory = function($resource) {
 
+		function transformResponse(Model, response, customHandler) {
+			if (response.resource) {
+				var data = _.isArray(response.resource) ?
+						_.map(response.resource, function iterate(r) {
+							return new Model(r);
+						}) : new Model(response.resource);
+
+				return _.isFunction(customHandler) ? customHandler(response, data) : data;
+			}
+		}
+
 		return {
 			model: function(options) {
 				_.defaults(options.resource, {
@@ -26,6 +37,20 @@
 				});
 
 				_.defaults(options.resource.methods, DEFAULT_METHODS);
+
+				_.forEach(options.resource.methods, function(method) {
+					if (!method) {
+						return;
+					}
+
+					method.interceptor = method.interceptor || {};
+
+					var customHandler = method.interceptor.response;
+
+					method.interceptor.response = function(response) {
+						return transformResponse(Model, response, customHandler);
+					};
+				});
 
 				var Resource = $resource(options.resource.path, options.resource.defaultParameters, options.resource.methods);
 

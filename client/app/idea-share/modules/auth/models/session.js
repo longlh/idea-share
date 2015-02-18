@@ -5,9 +5,9 @@
 	var SessionFactory = function($cookieStore, ModelFactory, Storage) {
 
 		var storeSession = {
-			response: function(response) {
+			response: function(response, session) {
 				// store current session
-				Storage.session = response.resource;
+				Storage.session = session;
 
 				// store token in cookies
 				$cookieStore.put(Session.KEY, Storage.session.token);
