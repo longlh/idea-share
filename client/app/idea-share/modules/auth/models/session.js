@@ -1,10 +1,10 @@
-;(function () {
+;(function() {
 	'use strict';
 	// var COOKIE_KEY_TOKEN = 'token';
 
-	var SessionFactory = function($cookieStore, $resource, Storage) {
+	var SessionFactory = function($cookieStore, ModelFactory, Storage) {
 
-		var interceptor = {
+		var storeSession = {
 			response: function(response) {
 				// store current session
 				Storage.session = response.resource;
@@ -16,45 +16,42 @@
 			}
 		};
 
-		var Session = $resource('/api/sessions/:token', {
-			token: '@token'
-		}, {
-			create: {
-				method: 'post',
-				interceptor: interceptor
-			},
-			destroy: {
-				method: 'delete',
-				interceptor: {
-					response: function(response) {
-						// clear session
-						Storage.session = null;
+		var purgeSession = {
+			response: function(response, session) {
+				// clear session
+				Storage.session = null;
 
-						// clear cookie
-						$cookieStore.remove(Session.KEY);
+				// clear cookie
+				$cookieStore.remove(Session.KEY);
 
-						return response;
-					}
+				return response;
+			}
+		};
+
+		var Session = ModelFactory.model({
+			resource: {
+				path: '/api/sessions/:token',
+				defaultParameters: {
+					token: '@token'
+				},
+				methods: {
+					get: {
+						method: 'get',
+						interceptor: storeSession
+					},
+					create: {
+						method: 'post',
+						interceptor: storeSession
+					},
+					delete: {
+						method: 'delete',
+						interceptor: purgeSession
+					},
+					query: false,
+					save: false
 				}
-			},
-			validate: {
-				method: 'get',
-				interceptor: interceptor
 			}
 		});
-
-		// Object.defineProperty(Session, 'current', {
-		// 	get: function() {
-		// 		if (_session) {
-		// 			return _session;
-		// 		} else if ($cookieStore.get(COOKIE_KEY_TOKEN)) {
-		// 			// get session from cookie
-		// 			return new Session({
-		// 				token: $cookieStore.get(COOKIE_KEY_TOKEN)
-		// 			});
-		// 		}
-		// 	}
-		// });
 
 		Object.defineProperty(Session, 'KEY', {
 			value: 'token'
@@ -63,7 +60,10 @@
 		return Session;
 	};
 
-	SessionFactory.$inject = [ '$cookieStore', '$resource', 'app.share.models.Storage' ];
+	SessionFactory.$inject = [
+		'$cookieStore',
+		'app.share.services.ModelFactory', 'app.share.models.Storage'
+	];
 
 	angular.module('app.auth').factory('app.auth.models.Session', SessionFactory);
 }());

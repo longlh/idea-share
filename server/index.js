@@ -1,11 +1,11 @@
 'use strict';
 
-var bodyParser = require('body-parser'),
-    cookieParser = require('cookie-parser'),
-    express = require('express'),
-	fs = require('fs'),
-	mongoose = require('mongoose'),
-	path = require('path');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var express = require('express');
+var fs = require('fs');
+var mongoose = require('mongoose');
+var path = require('path');
 
 var conf = rek('env/profiles/all');
 

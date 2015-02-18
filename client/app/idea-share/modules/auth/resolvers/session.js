@@ -5,11 +5,14 @@
 
 		return function() {
 
-			return Storage.session ? Storage.session.$validate() : $q.reject(401);
+			return Storage.session ? Storage.session.$get() : $q.reject(401);
 		};
 	};
 
-	SessionResolver.$inject = [ '$cookieStore', '$q', 'app.auth.models.Session', 'app.share.models.Storage' ];
+	SessionResolver.$inject = [
+		'$cookieStore', '$q',
+		'app.auth.models.Session', 'app.share.models.Storage'
+	];
 
 	angular.module('app.auth').factory('app.auth.resolvers.Session', SessionResolver);
 }());

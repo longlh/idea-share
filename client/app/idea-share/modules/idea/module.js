@@ -5,7 +5,17 @@
 		return resolver();
 	};
 
-	sessionResolver.$inject = [ 'app.auth.resolvers.Session' ];
+	sessionResolver.$inject = [
+		'app.auth.resolvers.Session'
+	];
+
+	var ideaResolver = function(resolver) {
+		return resolver();
+	};
+
+	ideaResolver.$inject = [
+		'app.idea.resolvers.Idea'
+	];
 
 	var config = function($routeProvider) {
 
@@ -14,17 +24,17 @@
 			templateUrl: '/modules/idea/views/idea.html',
 			resolve: {
 				session: sessionResolver,
-				idea: [ 'app.idea.resolvers.Idea', function resolver(ideaResolver) {
-					return ideaResolver();
-				} ]
+				idea: ideaResolver
 			}
 		});
 	};
 
-	config.$inject = [ '$routeProvider' ];
+	config.$inject = [
+		'$routeProvider'
+	];
 
 	angular.module('app.idea', [
-		'app.template', 'app.auth',
-		'ngResource', 'ngRoute'
+		'ngResource', 'ngRoute',
+		'app.template', 'app.share', 'app.auth',
 	]).config(config);
 }());

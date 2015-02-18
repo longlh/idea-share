@@ -1,12 +1,11 @@
 'use strict';
 
-var bird = require('bluebird'),
-	mongoose = require('mongoose');
+var bird = require('bluebird');
+var mongoose = require('mongoose');
 
-
-var self = module.exports,
-	Account = mongoose.model('Account'),
-	Invitation = mongoose.model('Invitation');
+var self = module.exports;
+var Account = mongoose.model('Account');
+var Invitation = mongoose.model('Invitation');
 
 function findInvitation(code) {
 	var query = Invitation.findOne({
@@ -18,9 +17,8 @@ function findInvitation(code) {
 }
 
 self.render = function(req, res, next) {
-
-	var code = req.params.code,
-		email = req.query.email;
+	var code = req.params.code;
+	var email = req.query.email;
 
 	findInvitation(code).then(function findInvitationDone(invitation) {
 		if (!invitation) {
@@ -39,28 +37,25 @@ self.render = function(req, res, next) {
 			error: error
 		});
 	});
-
 };
 
 self.process = function(req, res, next) {
-
-	var code = req.params.code,
-		email = req.body.email,
-		password = req.body.password,
-		usingInvitation;
+	var code = req.params.code;
+	var email = req.body.email;
+	var password = req.body.password;
+	var usingInvitation;
 
 	findInvitation(code).then(function findInvitationDone(invitation) {
-
 		// invitation is matched with code and not used yet
 		if (invitation) {
-			// store working invitation
-			usingInvitation = invitation;
-
 			var account = new Account({
 					email: email,
 					password: password
-				}),
-				createAccount = bird.promisify(account.save, account);
+				});
+			var createAccount = bird.promisify(account.save, account);
+
+			// store working invitation
+			usingInvitation = invitation;
 
 			return createAccount();
 		}
@@ -68,25 +63,17 @@ self.process = function(req, res, next) {
 		return bird.reject();
 
 	}).spread(function createAccountDone() {
-
 		var consumeInvitation = bird.promisify(usingInvitation.save, usingInvitation);
 
 		usingInvitation.used = true;
 
 		return consumeInvitation();
-
 	}).spread(function consumeInvitationDone() {
-
 		res._redirect('page.index');
-
 	}).catch(function handleError(error) {
-
-		console.info(error);
-
 		res._redirect('page.invitation', {
 			code: code,
 			email: email
 		});
-
 	});
 };

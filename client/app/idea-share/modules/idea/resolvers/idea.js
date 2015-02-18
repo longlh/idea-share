@@ -1,7 +1,6 @@
 ;(function() {
 	'use strict';
 
-
 	var IdeaResolver = function($route, Idea) {
 		return function() {
 			var id = $route.current.params.id;
@@ -18,7 +17,10 @@
 		};
 	};
 
-	IdeaResolver.$inject = [ '$route', 'app.idea.models.Idea' ];
+	IdeaResolver.$inject = [
+		'$route',
+		'app.idea.models.Idea'
+	];
 
 	angular.module('app.idea').factory('app.idea.resolvers.Idea', IdeaResolver);
 }());

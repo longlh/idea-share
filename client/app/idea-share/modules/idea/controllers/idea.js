@@ -1,25 +1,29 @@
 ;(function() {
 	'use strict';
 
-	var Idea = function($scope, Idea, resolvedIdea) {
+	var Idea = function(resolvedIdea, $scope, Idea) {
 		$scope.idea = resolvedIdea;
 
 		var otherIdea = new Idea({
-			id: 'xxx',
 			brief: 'hahaha'
 		});
 
-		console.log(otherIdea);
-		console.log(otherIdea instanceof Idea);
-		console.log(typeof otherIdea);
+		console.info(otherIdea instanceof Idea);
 
-		console.log($scope.idea);
+		otherIdea.$save().then(function(idea) {
+			console.log(idea, idea instanceof Idea);
+		});
 
-		otherIdea.$save();
+		Idea.query().then(function(ideas) {
+			console.log(ideas);
+		});
 	};
 
-	Idea.$inject = [ '$scope', 'app.idea.models.Idea', 'idea' ];
+	Idea.$inject = [
+		'idea',
+		'$scope',
+		'app.idea.models.Idea'
+	];
 
 	angular.module('app.idea').controller('app.idea.controllers.Idea', Idea);
-
 })();

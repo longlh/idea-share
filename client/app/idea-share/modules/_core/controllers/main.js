@@ -1,4 +1,4 @@
-;(function () {
+;(function() {
 	'use strict';
 
 	var Main = function(Storage) {
@@ -8,7 +8,7 @@
 		};
 	};
 
-	Main.$inject = [ 'app.share.models.Storage' ];
+	Main.$inject = ['app.share.models.Storage'];
 
 	angular.module('app.core').controller('app.core.controllers.Main', Main);
 }());

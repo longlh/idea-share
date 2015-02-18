@@ -53,6 +53,19 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		jscs: {
+			all: {
+				src: [
+					'<%= jshint.client.src %>',
+					'<%= jshint.server.src %>'
+				],
+				options: {
+					config: 'build/rules/.jscsrc',
+					reporter: 'junit',
+					reporterOutput: 'build/reports/jscs.xml'
+				}
+			}
+		},
 		express: {
 			dev: {
 				options: {
@@ -217,7 +230,7 @@ module.exports = function(grunt) {
 	// load all plugins
 	require('load-grunt-tasks')(grunt);
 
-	grunt.registerTask('verify', [ 'jshint' ]);
+	grunt.registerTask('verify', [ 'jscs', 'jshint' ]);
 	grunt.registerTask('build', [ 'clean:build', 'filerev:img', 'replace', 'stylus', 'cssmin', 'ngtemplates', 'uglify', 'filerev:css', 'filerev:js', 'filerev_assets', 'clean:tmp' ]);
 	grunt.registerTask('default', [ 'verify', 'build', 'express:dev', 'watch' ]);
 };

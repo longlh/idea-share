@@ -1,13 +1,15 @@
 ;(function() {
 	'use strict';
+
 	var sessionResolver = function(resolver) {
 		return resolver();
 	};
 
-	sessionResolver.$inject = [ 'app.auth.resolvers.Session' ];
+	sessionResolver.$inject = [
+		'app.auth.resolvers.Session'
+	];
 
 	var config = function($routeProvider) {
-
 		$routeProvider.when('/dashboard', {
 			controller: 'app.dashboard.controllers.Dashboard',
 			templateUrl: '/modules/dashboard/views/dashboard.html',
@@ -15,14 +17,14 @@
 				session: sessionResolver
 			}
 		});
-
 	};
 
-	config.$inject = [ '$routeProvider' ];
-
+	config.$inject = [
+		'$routeProvider'
+	];
 
 	angular.module('app.dashboard', [
-		'app.template', 'app.auth',
-		'ngRoute'
+		'ngRoute',
+		'app.template', 'app.auth'
 	]).config(config);
 }());

@@ -15,7 +15,7 @@
 		};
 	};
 
-	errorInterceptor.$inject = [ '$location', '$q' ];
+	errorInterceptor.$inject = ['$location', '$q'];
 
 	var config = function($httpProvider, $routeProvider) {
 
@@ -30,7 +30,7 @@
 		$httpProvider.interceptors.push(errorInterceptor);
 	};
 
-	config.$inject = [ '$httpProvider', '$routeProvider' ];
+	config.$inject = ['$httpProvider', '$routeProvider'];
 
 	angular.module('app.core', [
 		'app.template', 'app.auth',

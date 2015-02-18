@@ -1,7 +1,7 @@
 'use strict';
 
-var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var ideaFragmentSchema = new Schema({
 	content: {
@@ -20,7 +20,7 @@ var ideaSchema = new Schema({
 		ref: 'Account',
 		required: true
 	},
-	fragments: [ ideaFragmentSchema ]
+	fragments: [ideaFragmentSchema]
 });
 
 mongoose.model('Idea', ideaSchema);

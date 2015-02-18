@@ -1,8 +1,8 @@
 'use strict';
 
-var crypto = require('crypto'),
-	mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+var crypto = require('crypto');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 // schema
 var accountSchema = new Schema({
@@ -52,6 +52,5 @@ accountSchema.virtual('password').set(function(password) {
 	this.salt = this.makeSalt();
 	this.hashedPassword = this.makeHashedPassword(password);
 });
-
 
 mongoose.model('Account', accountSchema);

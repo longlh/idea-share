@@ -1,54 +1,28 @@
-;(function () {
+;(function() {
 	'use strict';
 
-	function setRequireProperties(idea) {
-		if (!_.isArray(idea.fragments)) {
-			idea.fragments = [];
-		}
-	}
+	var IdeaFactory = function(ModelFactory) {
 
-	var IdeaFactory = function($resource) {
-		var Resource = $resource('/api/ideas/:id', {
-			id: '@id'
-		}, {
-			create: {
-				method: 'post'
+		var Idea = ModelFactory.model({
+			resource: {
+				path: '/api/ideas/:id',
+				defaultParameters: {
+					id: '@id'
+				}
 			},
-			get: {
-				method: 'get'
+			instantiation: {
+				defaultProperties: {
+					fragments: []
+				}
 			}
 		});
-
-		var Idea = function(properties) {
-			var resource = new Resource(properties);
-			// Resource.apply(this, arguments);
-
-
-
-			setRequireProperties(resource);
-
-			return Object.create(resource);
-			// this.resource = resource;
-
-
-
-
-			// return Object.create(resource, {
-			// 	constructor: {
-			// 		configuration: true,
-			// 		enumerable: true,
-			// 		value: Idea,
-			// 		writable: true
-			// 	}
-			// });
-		};
-
-		// Idea.prototype = Resource;
 
 		return Idea;
 	};
 
-	IdeaFactory.$inject = [ '$resource' ];
+	IdeaFactory.$inject = [
+		'app.share.services.ModelFactory'
+	];
 
 	angular.module('app.idea').factory('app.idea.models.Idea', IdeaFactory);
 }());

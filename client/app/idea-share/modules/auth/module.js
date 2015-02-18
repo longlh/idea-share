@@ -3,13 +3,14 @@
 
 	var purgeSession = function(Storage) {
 
-		return Storage.session ? Storage.session.$destroy() : null;
+		return Storage.session ? Storage.session.$delete() : null;
 	};
 
-	purgeSession.$inject = [ 'app.share.models.Storage' ];
+	purgeSession.$inject = [
+		'app.share.models.Storage'
+	];
 
 	var authIntercepter = function($location, $q, Storage) {
-
 		return {
 			request: function(config) {
 
@@ -31,7 +32,10 @@
 		};
 	};
 
-	authIntercepter.$inject = [ '$location', '$q', 'app.share.models.Storage' ];
+	authIntercepter.$inject = [
+		'$location', '$q',
+		'app.share.models.Storage'
+	];
 
 	var config = function($httpProvider, $routeProvider) {
 
@@ -46,7 +50,10 @@
 		$httpProvider.interceptors.push(authIntercepter);
 	};
 
-	config.$inject = [ '$httpProvider', '$routeProvider' ];
+	config.$inject = [
+		'$httpProvider',
+		'$routeProvider'
+	];
 
 	var run = function($cookieStore, $location, $rootScope, Session, Storage) {
 
@@ -67,10 +74,13 @@
 		}
 	};
 
-	run.$inject = [ '$cookieStore', '$location', '$rootScope', 'app.auth.models.Session', 'app.share.models.Storage' ];
+	run.$inject = [
+		'$cookieStore', '$location', '$rootScope',
+		'app.auth.models.Session', 'app.share.models.Storage'
+	];
 
 	angular.module('app.auth', [
-		'app.template', 'app.share',
-		'ngCookies', 'ngResource', 'ngRoute'
+		'ngCookies', 'ngResource', 'ngRoute',
+		'app.template', 'app.share'
 	]).config(config).run(run);
 }());
