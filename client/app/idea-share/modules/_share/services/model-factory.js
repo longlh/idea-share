@@ -19,43 +19,10 @@
 
 	var ModelFactory = function($resource) {
 
-		function transformResponse(Model, response, customHandler) {
-			if (response.resource) {
-				var data = _.isArray(response.resource) ?
-						_.map(response.resource, function iterate(r) {
-							return new Model(r);
-						}) : new Model(response.resource);
-
-				return _.isFunction(customHandler) ? customHandler(response, data) : data;
-			}
-		}
-
 		return {
 			model: function(options) {
-				_.defaults(options.resource, {
-					methods: {}
-				});
-
-				_.defaults(options.resource.methods, DEFAULT_METHODS);
-
-				_.forEach(options.resource.methods, function(method) {
-					if (!method) {
-						return;
-					}
-
-					method.interceptor = method.interceptor || {};
-
-					var customHandler = method.interceptor.response;
-
-					method.interceptor.response = function(response) {
-						return transformResponse(Model, response, customHandler);
-					};
-				});
-
-				var Resource = $resource(options.resource.path, options.resource.defaultParameters, options.resource.methods);
 
 				var Model = function(properties) {
-
 					_.assign(this, properties);
 
 					if (options.instantiation) {
@@ -67,9 +34,73 @@
 					}
 				};
 
-				Model.prototype = Object.create(new Resource(), {
+				var transform = function(customHandler) {
+					return function(response) {
+						if (response.resource) {
+							var data;
+
+							if (_.isArray(response.resource)) {
+								data = _.map(response.resource, function iterate(r) {
+									return r instanceof Model ?
+											r : new Model(r.toJSON());
+								});
+							} else {
+								data = response.resource instanceof Model ?
+										response.resource : new Model(response.resource.toJSON());
+							}
+
+							return _.isFunction(customHandler) ?
+									customHandler(response, data) : data;
+						}
+					};
+				};
+
+				_.defaults(options.resource, {
+					methods: {}
+				});
+
+				_.defaults(options.resource.methods, _.clone(DEFAULT_METHODS, true));
+
+				_.forEach(options.resource.methods, function(method, name) {
+					if (!method) {
+						delete options.resource.methods[name];
+						return;
+					}
+
+					method.interceptor = method.interceptor || {};
+
+					method.interceptor.response = transform(method.interceptor.response);
+				});
+
+				var Resource = $resource(options.resource.path, options.resource.defaultParameters, options.resource.methods);
+
+				var proto = new Resource();
+
+				Model.prototype = Object.create(proto, {
 					constructor: {
 						value: Model
+					},
+					toJSON: {
+						value: function() {
+							var result = proto.toJSON.apply(this);
+
+							_.forEach(options.ignoreProperties, function(prop) {
+								delete result[prop];
+							});
+
+							return result;
+						}
+					}
+				});
+
+				// add sugar method:
+				// $delete -> delete
+				// $save -> save
+				_.forEach(options.resource.methods, function(method, name) {
+					if (method) {
+						if (_.isFunction(Model.prototype['$' + name])) {
+							Model.prototype[name] = Model.prototype['$' + name];
+						}
 					}
 				});
 

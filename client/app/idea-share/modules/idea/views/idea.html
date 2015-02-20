@@ -1,2 +1,10 @@
 <h1>Idea</h1>
 <input type="test" data-ng-model="idea.brief">
+<hr>
+<div data-ng-repeat="frag in idea.fragments">
+	<textarea data-ng-model="frag.content"></textarea><br>
+	<button type="button" data-ng-click="saveFragment(frag, $index)">Save</button>
+	<hr>
+</div>
+<button type="button" data-ng-click="saveIdea()">Submit</button>
+<button type="button" data-ng-click="addFragment()">Add fragments</button>

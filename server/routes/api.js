@@ -1,6 +1,7 @@
 'use strict';
 
 var auth = rek('server/middlewares/auth');
+var idea = rek('server/middlewares/idea');
 
 module.exports = function(app) {
 	app.route('/api/sessions')
@@ -20,21 +21,15 @@ module.exports = function(app) {
 					brief: 'idea 2'
 				}]);
 			})
-			.post(function insertIdea(req, res, next) {
-				res.json({
-					id: 3,
-					brief: 'idea 3'
-				});
-			});
+			.post(auth.identifySession, idea.save);
 
 	app.route('/api/ideas/:id')
-			.get(function getIdea(req, res, next) {
-				res.json({
-					id: req.params.id,
-					brief: 'xxx'
-				});
-			})
-			.put(function updateIdea(req, res, next) {
-				res.json(req.body);
-			});
+			.get(auth.identifySession, idea.get({
+				identifier: 'id',
+				finally: true
+			}))
+			.post(auth.identifySession, idea.get({
+				identifier: 'id',
+				finally: false
+			}), idea.save);
 };

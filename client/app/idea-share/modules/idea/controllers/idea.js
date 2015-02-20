@@ -1,28 +1,38 @@
 ;(function() {
 	'use strict';
 
-	var Idea = function(resolvedIdea, $scope, Idea) {
+	var Idea = function(resolvedIdea, $location, $scope, Fragment, Idea) {
+		$scope.isCreate = !resolvedIdea._id;
 		$scope.idea = resolvedIdea;
 
-		var otherIdea = new Idea({
-			brief: 'hahaha'
-		});
+		console.log($scope.idea);
 
-		console.info(otherIdea instanceof Idea);
+		$scope.saveIdea = function() {
+			// console.log(resolvedIdea instanceof Idea);
+			$scope.idea.save().then(function() {
+				if ($scope.isCreate) {
+					$location.url('/ideas/' + $scope.idea._id);
+				}
+			});
+		};
 
-		otherIdea.$save().then(function(idea) {
-			console.log(idea, idea instanceof Idea);
-		});
+		$scope.addFragment = function() {
+			$scope.idea.fragments.push(new Fragment({
+				_idea: $scope.idea
+			}));
+		};
 
-		Idea.query().then(function(ideas) {
-			console.log(ideas);
-		});
+		$scope.saveFragment = function(fragment) {
+			// var index = $scope.idea
+			// fragment.save();
+			console.log(fragment instanceof Fragment);
+		};
 	};
 
 	Idea.$inject = [
 		'idea',
-		'$scope',
-		'app.idea.models.Idea'
+		'$location', '$scope',
+		'app.idea.models.Fragment', 'app.idea.models.Idea'
 	];
 
 	angular.module('app.idea').controller('app.idea.controllers.Idea', Idea);

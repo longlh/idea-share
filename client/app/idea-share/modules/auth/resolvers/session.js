@@ -2,10 +2,8 @@
 	'use strict';
 
 	var SessionResolver = function($cookieStore, $q, Session, Storage) {
-
 		return function() {
-
-			return Storage.session ? Storage.session.$get() : $q.reject(401);
+			return Storage.session ? Storage.session.get() : $q.reject(401);
 		};
 	};
 

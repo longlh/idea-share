@@ -33,8 +33,8 @@
 	config.$inject = ['$httpProvider', '$routeProvider'];
 
 	angular.module('app.core', [
-		'app.template', 'app.auth',
-		'ngCookies', 'ngResource'
+		'ngCookies', 'ngResource',
+		'app.template', 'app.auth'
 	]).config(config);
 
 }());

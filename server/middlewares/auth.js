@@ -26,10 +26,8 @@ var enforceSession = function(token, account) {
 	});
 };
 
-self.validateSession = function(req, res, next) {
-	var token = req.params.token;
-
-	rGet('session:' + token).then(function(id) {
+var findAccountBySessionToken = function(token) {
+	return rGet('session:' + token).then(function getSessionDone(id) {
 		if (id) {
 			var query = Account.findById(id);
 			var findAccount = bird.promisify(query.exec, query);
@@ -38,7 +36,25 @@ self.validateSession = function(req, res, next) {
 		}
 
 		return bird.reject();
-	}).then(function findAccountDone(account) {
+	});
+};
+
+self.identifySession = function(req, res, next) {
+	var token = req.headers.authorization;
+
+	return findAccountBySessionToken(token).then(function findAccountDone(account) {
+		req._account = account;
+
+		next();
+	}).catch(function handleError(e) {
+		res.status(401).json(e);
+	});
+};
+
+self.validateSession = function(req, res, next) {
+	var token = req.params.token;
+
+	findAccountBySessionToken(token).then(function findAccountDone(account) {
 		return enforceSession(token, account);
 	}).then(function enforceSessionDone(session) {
 		res.json(session);
@@ -72,7 +88,7 @@ self.signIn = function(req, res, next) {
 		}
 	}).then(function sessionEnforceDone(session) {
 		res.json(session);
-	}).catch(function onError(e) {
+	}).catch(function handleError(e) {
 		res.status(401).json(e);
 	});
 };

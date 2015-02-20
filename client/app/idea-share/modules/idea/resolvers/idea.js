@@ -6,13 +6,11 @@
 			var id = $route.current.params.id;
 
 			if (id === 'new') {
-				var idea = new Idea();
-
-				return idea;
+				return new Idea();
 			} else {
 				return Idea.get({
 					id: id
-				}).$promise;
+				});
 			}
 		};
 	};

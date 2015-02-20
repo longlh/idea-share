@@ -10,17 +10,25 @@ var ideaFragmentSchema = new Schema({
 	},
 	ref: {
 		type: Schema.ObjectId,
-		ref: 'IdeaComment'
+		ref: 'Comment'
 	}
 });
 
 var ideaSchema = new Schema({
-	accountId: {
+	owner: {
 		type: Schema.ObjectId,
 		ref: 'Account',
+		// required: true
+	},
+	brief: {
+		type: String,
 		required: true
 	},
-	fragments: [ideaFragmentSchema]
+	fragments: [ideaFragmentSchema],
+	comments: [{
+		type: Schema.ObjectId,
+		ref: 'Comment'
+	}]
 });
 
 mongoose.model('Idea', ideaSchema);

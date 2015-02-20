@@ -4,28 +4,24 @@
 
 	var SessionFactory = function($cookieStore, ModelFactory, Storage) {
 
-		var storeSession = {
-			response: function(response, session) {
-				// store current session
-				Storage.session = session;
+		var storeSession = function(response, session) {
+			// store current session
+			Storage.session = session;
 
-				// store token in cookies
-				$cookieStore.put(Session.KEY, Storage.session.token);
+			// store token in cookies
+			$cookieStore.put(Session.KEY, Storage.session.token);
 
-				return Storage.session;
-			}
+			return Storage.session;
 		};
 
-		var purgeSession = {
-			response: function(response, session) {
-				// clear session
-				Storage.session = null;
+		var purgeSession = function(response, session) {
+			// clear session
+			Storage.session = null;
 
-				// clear cookie
-				$cookieStore.remove(Session.KEY);
+			// clear cookie
+			$cookieStore.remove(Session.KEY);
 
-				return response;
-			}
+			return response;
 		};
 
 		var Session = ModelFactory.model({
@@ -37,15 +33,21 @@
 				methods: {
 					get: {
 						method: 'get',
-						interceptor: storeSession
+						interceptor: {
+							response: storeSession
+						}
 					},
 					create: {
 						method: 'post',
-						interceptor: storeSession
+						interceptor: {
+							response: storeSession
+						}
 					},
 					delete: {
 						method: 'delete',
-						interceptor: purgeSession
+						interceptor: {
+							response: purgeSession
+						}
 					},
 					query: false,
 					save: false
