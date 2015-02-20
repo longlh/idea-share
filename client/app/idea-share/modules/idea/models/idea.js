@@ -11,17 +11,14 @@
 			},
 			instantiation: {
 				defaultProperties: {
-					fragments: [{
-						content: ''
-					}],
+					fragments: [],
 					comments: []
 				},
 				construct: function() {
 					var self = this;
 
 					_.forEach(self.fragments, function(fragment, index) {
-						self.fragments[index] = new Fragment(fragment);
-						self.fragments[index]._idea = self;
+						self.fragments[index] = new Fragment(fragment).belongsTo(self);
 					});
 				}
 			},

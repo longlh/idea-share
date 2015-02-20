@@ -5,11 +5,9 @@
 		$scope.isCreate = !resolvedIdea._id;
 		$scope.idea = resolvedIdea;
 
-		console.log($scope.idea);
-
 		$scope.saveIdea = function() {
 			// console.log(resolvedIdea instanceof Idea);
-			$scope.idea.save().then(function() {
+			$scope.idea.save().then(function(idea) {
 				if ($scope.isCreate) {
 					$location.url('/ideas/' + $scope.idea._id);
 				}
@@ -17,15 +15,11 @@
 		};
 
 		$scope.addFragment = function() {
-			$scope.idea.fragments.push(new Fragment({
-				_idea: $scope.idea
-			}));
+			$scope.idea.fragments.push(new Fragment().belongsTo($scope.idea));
 		};
 
-		$scope.saveFragment = function(fragment) {
-			// var index = $scope.idea
-			// fragment.save();
-			console.log(fragment instanceof Fragment);
+		$scope.saveFragment = function(fragment, index) {
+			return fragment.save();
 		};
 	};
 

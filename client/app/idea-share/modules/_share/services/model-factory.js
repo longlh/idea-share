@@ -41,12 +41,10 @@
 
 							if (_.isArray(response.resource)) {
 								data = _.map(response.resource, function iterate(r) {
-									return r instanceof Model ?
-											r : new Model(r.toJSON());
+									return new Model(r);
 								});
 							} else {
-								data = response.resource instanceof Model ?
-										response.resource : new Model(response.resource.toJSON());
+								data = new Model(response.resource);
 							}
 
 							return _.isFunction(customHandler) ?
@@ -99,7 +97,7 @@
 				_.forEach(options.resource.methods, function(method, name) {
 					if (method) {
 						if (_.isFunction(Model.prototype['$' + name])) {
-							Model.prototype[name] = Model.prototype['$' + name];
+							proto[name] = proto['$' + name];
 						}
 					}
 				});

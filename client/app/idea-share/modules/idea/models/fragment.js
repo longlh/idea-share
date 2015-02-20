@@ -13,6 +13,26 @@
 			ignoreProperties: ['_idea']
 		});
 
+		var base = Object.getPrototypeOf(Fragment.prototype);
+
+		Object.defineProperty(Fragment.prototype, 'belongsTo', {
+			value: function(idea) {
+				this._idea = idea;
+				return this;
+			}
+		});
+
+		Object.defineProperty(Fragment.prototype, 'save', {
+			value: function() {
+				var self = this;
+				var idea = self._idea;
+
+				return base.save.apply(this).then(function() {
+					return self.belongTo(idea);
+				});
+			}
+		});
+
 		return Fragment;
 	};
 

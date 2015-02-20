@@ -21,15 +21,33 @@ module.exports = function(app) {
 					brief: 'idea 2'
 				}]);
 			})
-			.post(auth.identifySession, idea.save);
+			.post(
+					auth.identifySession,
+					idea.save
+			);
 
 	app.route('/api/ideas/:id')
-			.get(auth.identifySession, idea.get({
-				identifier: 'id',
-				finally: true
-			}))
-			.post(auth.identifySession, idea.get({
-				identifier: 'id',
-				finally: false
-			}), idea.save);
+			.get(
+					auth.identifySession,
+					idea.get({
+						identifier: 'id',
+						finally: true
+					})
+			)
+			.post(
+					auth.identifySession,
+					idea.get({
+						identifier: 'id'
+					}),
+					idea.save
+			);
+
+	app.route('/api/ideas/:ideaId/fragments/:id')
+			.post(
+					auth.identifySession,
+					idea.get({
+						identifier: 'ideaId'
+					}),
+					idea.saveFragment
+			);
 };
