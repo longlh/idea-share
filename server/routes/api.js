@@ -42,6 +42,15 @@ module.exports = function(app) {
 					idea.save
 			);
 
+	app.route('/api/ideas/:ideaId/fragments')
+			.post(
+					auth.identifySession,
+					idea.get({
+						identifier: 'ideaId'
+					}),
+					idea.saveFragment
+			);
+
 	app.route('/api/ideas/:ideaId/fragments/:id')
 			.post(
 					auth.identifySession,

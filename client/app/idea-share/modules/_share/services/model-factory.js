@@ -106,7 +106,7 @@
 					if (meta && _.isFunction(Resource[method])) {
 						Model[method] = function() {
 
-							return Resource[method].apply(Model, arguments).$promise;
+							return Resource[method].apply(Resource, arguments).$promise;
 						};
 					}
 				});

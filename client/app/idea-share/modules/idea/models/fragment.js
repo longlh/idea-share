@@ -28,7 +28,7 @@
 				var idea = self._idea;
 
 				return base.save.apply(this).then(function() {
-					return self.belongTo(idea);
+					return self.belongsTo(idea);
 				});
 			}
 		});

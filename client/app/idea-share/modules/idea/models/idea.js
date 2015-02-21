@@ -22,7 +22,7 @@
 					});
 				}
 			},
-			ignoreProperties: ['comments', 'fragments', 'owner']
+			ignoreProperties: ['comments', 'owner']
 		});
 
 		return Idea;
