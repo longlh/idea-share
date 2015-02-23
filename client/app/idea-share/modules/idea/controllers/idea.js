@@ -14,7 +14,7 @@
 		$scope.saveIdea = function() {
 			$scope.idea.save().then(function saveDone(idea) {
 				if ($scope.new) {
-					$location.url('/ideas/' + $scope.idea._id);
+					$location.url('/ideas/' + idea._id);
 				}
 			});
 		};
@@ -23,8 +23,20 @@
 			$scope.idea.fragments.push(new Fragment().belongsTo($scope.idea));
 		};
 
-		$scope.saveFragment = function(fragment, index) {
-			return fragment.save();
+		$scope.saveFragment = function(fragment) {
+			$scope.idea.saveFragment(fragment.editable(false));
+		};
+
+		$scope.discardFragmentChanges = function(fragment) {
+			$scope.idea.reloadFragment(fragment.editable(false));
+		};
+
+		$scope.deleteFragment = function(fragment) {
+			$scope.idea.removeFragment(fragment);
+		};
+
+		$scope.editFragment = function(fragment) {
+			fragment.editable(true);
 		};
 	};
 

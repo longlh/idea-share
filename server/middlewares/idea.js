@@ -29,7 +29,7 @@ self.save = function(req, res, next) {
 
 	if (req._idea) {
 		var modifiedData = _.pick(req.body, 'brief', 'fragments');
-		var query = Idea.findByIdAndUpdate(req._idea.id, modifiedData);
+		var query = Idea.findByIdAndUpdate(req._idea._id, modifiedData);
 		var updateIdea = bird.promisify(query.exec, query);
 
 		job = updateIdea();
@@ -73,7 +73,7 @@ function updateExistedFragment(req, res, id) {
 }
 
 function insertFragment(req, res) {
-	var query = Idea.findByIdAndUpdate(req._idea.id, {
+	var query = Idea.findByIdAndUpdate(req._idea._id, {
 		$push: {
 			fragments: {
 				content: req.body.content
@@ -97,4 +97,29 @@ self.saveFragment = function(req, res, next) {
 	job(req, res, id).catch(function handleError(e) {
 		res.status(500).json(e);
 	});
+};
+
+self.deleteFragment = function(req, res, next) {
+	var id = req.params.id;
+	// update
+	var query = Idea.findOneAndUpdate({
+		_id: req._idea._id,
+		'fragments._id': id
+	}, {
+		$set: {
+			'fragments.$.deleted': true
+		}
+	}, {
+		select: ['fragments']
+	});
+
+	var deleteFragment = bird.promisify(query.exec, query);
+
+	return deleteFragment().then(function deleteFragmentDone(idea) {
+		return res.json(idea.fragments.id(id));
+	});
+};
+
+self.getFragment = function(req, res, next) {
+	res.json(req._idea.fragments.id(req.params.id));
 };

@@ -52,11 +52,25 @@ module.exports = function(app) {
 			);
 
 	app.route('/api/ideas/:ideaId/fragments/:id')
+			.get(
+					auth.identifySession,
+					idea.get({
+						identifier: 'ideaId'
+					}),
+					idea.getFragment
+			)
 			.post(
 					auth.identifySession,
 					idea.get({
 						identifier: 'ideaId'
 					}),
 					idea.saveFragment
+			)
+			.delete(
+					auth.identifySession,
+					idea.get({
+						identifier: 'ideaId'
+					}),
+					idea.deleteFragment
 			);
 };

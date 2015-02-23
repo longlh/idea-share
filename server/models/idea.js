@@ -3,17 +3,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ideaFragmentSchema = new Schema({
-	content: {
-		type: String,
-		required: true
-	},
-	ref: {
-		type: Schema.ObjectId,
-		ref: 'Comment'
-	}
-});
-
 var ideaSchema = new Schema({
 	owner: {
 		type: Schema.ObjectId,
@@ -24,11 +13,33 @@ var ideaSchema = new Schema({
 		type: String,
 		required: true
 	},
-	fragments: [ideaFragmentSchema],
+	fragments: [{
+		content: {
+			type: String,
+			required: true
+		},
+		ref: {
+			type: Schema.ObjectId,
+			ref: 'Comment'
+		},
+		deleted: {
+			type: Boolean,
+			default: false,
+			required: true
+		},
+		created: {
+			type: Date,
+			default: Date.now
+		}
+	}],
 	comments: [{
 		type: Schema.ObjectId,
 		ref: 'Comment'
-	}]
+	}],
+	created: {
+		type: Date,
+		default: Date.now
+	}
 });
 
 mongoose.model('Idea', ideaSchema);

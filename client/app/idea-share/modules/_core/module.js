@@ -6,9 +6,9 @@
 		return {
 			responseError: function(rejection) {
 
-				if (rejection.status === 404) {
-					$location.url('/404');
-				}
+				// if (rejection.status === 404) {
+				// 	$location.url('/404');
+				// }
 
 				return $q.reject(rejection);
 			}

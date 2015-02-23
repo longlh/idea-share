@@ -11,7 +11,7 @@
 				}
 			},
 			instantiation: {
-				_ignore: ['_idea']
+				_ignore: ['_idea', '_edit']
 			}
 		});
 
@@ -27,9 +27,32 @@
 				var self = this;
 				var idea = self._idea;
 
-				return Fragment.base.save.apply(self).then(function saveDone() {
-					return self.belongsTo(idea);
+				return Fragment.base.save.apply(self).then(function saveDone(fragment) {
+					return fragment.belongsTo(idea);
 				});
+			}
+		});
+
+		Object.defineProperty(Fragment.class.prototype, 'get', {
+			value: function() {
+				var self = this;
+				var idea = self._idea;
+
+				return Fragment.base.get.apply(self).then(function getDone(fragment) {
+					return fragment.belongsTo(idea);
+				});
+			}
+		});
+
+		Object.defineProperty(Fragment.class.prototype, 'editable', {
+			value: function() {
+				if (arguments.length) {
+					// setter
+					this._edit = arguments[0];
+					return this;
+				} else {
+					return this._edit;
+				}
 			}
 		});
 
