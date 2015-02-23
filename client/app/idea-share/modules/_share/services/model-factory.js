@@ -63,7 +63,7 @@
 
 				_.defaults(options.resource.methods, _.clone(DEFAULT_METHODS, true));
 
-				_.forEach(options.resource.methods, function(method, name) {
+				_.forEach(options.resource.methods, function iterate(method, name) {
 					if (!method) {
 						delete options.resource.methods[name];
 						return;
@@ -106,7 +106,7 @@
 						value: function() {
 							var result = proto.toJSON.apply(this);
 
-							_.forEach(this._ignore, function(prop) {
+							_.forEach(this._ignore, function iterate(prop) {
 								delete result[prop];
 							});
 
@@ -121,7 +121,7 @@
 				// $delete -> delete
 				// $save -> save
 				// ...
-				_.forEach(options.resource.methods, function(method, name) {
+				_.forEach(options.resource.methods, function iterate(method, name) {
 					if (method) {
 						if (_.isFunction(proto['$' + name])) {
 							proto[name] = proto['$' + name];
@@ -140,7 +140,7 @@
 
 				return {
 					class: Model,
-					base: Object.getPrototypeOf(proto)
+					base: proto
 				};
 			}
 		};

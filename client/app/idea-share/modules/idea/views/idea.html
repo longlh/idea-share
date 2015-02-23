@@ -3,7 +3,8 @@
 <hr>
 <div data-ng-repeat="frag in idea.fragments">
 	<textarea data-ng-model="frag.content"></textarea><br>
-	<button type="button" data-ng-click="saveFragment(frag, $index)">Save</button>
+	<button type="button" data-ng-click="saveFragment(frag)" data-ng-if="!new">Save</button>
+	<button type="button" data-ng-click="removeFragment(frag, $index)">Delete</button>
 	<hr>
 </div>
 <button type="button" data-ng-click="saveIdea()">Submit</button>

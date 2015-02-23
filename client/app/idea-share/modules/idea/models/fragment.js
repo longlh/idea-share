@@ -1,4 +1,4 @@
-;(function(ns) {
+;(function() {
 	'use strict';
 
 	var FragmentFactory = function(ModelFactory) {
@@ -7,7 +7,7 @@
 				path: '/api/ideas/:ideaId/fragments/:id',
 				defaultParameters: {
 					id: '@_id',
-					ideaId: '@_idea._id'
+					ideaId: '@_idea'
 				}
 			},
 			instantiation: {
@@ -17,7 +17,7 @@
 
 		Object.defineProperty(Fragment.class.prototype, 'belongsTo', {
 			value: function(idea) {
-				this._idea = idea;
+				this._idea = idea._id;
 				return this;
 			}
 		});
@@ -27,7 +27,7 @@
 				var self = this;
 				var idea = self._idea;
 
-				return Fragment.base.save.apply(this).then(function() {
+				return Fragment.base.save.apply(self).then(function saveDone() {
 					return self.belongsTo(idea);
 				});
 			}
@@ -40,5 +40,5 @@
 		'app.share.services.ModelFactory'
 	];
 
-	angular.module(ns).factory(ns + '.models.Fragment', FragmentFactory);
-}('app.idea'));
+	angular.module('app.idea').factory('app.idea.models.Fragment', FragmentFactory);
+}());

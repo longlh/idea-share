@@ -12,8 +12,8 @@
 		}
 
 		$scope.saveIdea = function() {
-			$scope.idea.save().then(function(idea) {
-				if ($scope.isCreate) {
+			$scope.idea.save().then(function saveDone(idea) {
+				if ($scope.new) {
 					$location.url('/ideas/' + $scope.idea._id);
 				}
 			});
@@ -35,4 +35,4 @@
 	];
 
 	angular.module('app.idea').controller('app.idea.controllers.Idea', Idea);
-})();
+}());
