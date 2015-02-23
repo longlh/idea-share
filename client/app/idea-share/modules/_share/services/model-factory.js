@@ -21,7 +21,6 @@
 
 		return {
 			model: function(options) {
-
 				var Model = function(properties) {
 					_.assign(this, properties);
 
@@ -32,6 +31,10 @@
 							options.instantiation.construct.apply(this);
 						}
 					}
+
+					_.defaults(this, {
+						_ignore: []
+					});
 				};
 
 				var transform = function(customHandler) {
@@ -53,6 +56,7 @@
 					};
 				};
 
+				// set default options
 				_.defaults(options.resource, {
 					methods: {}
 				});
@@ -78,13 +82,35 @@
 					constructor: {
 						value: Model
 					},
+					includeProperty: {
+						value: function(property) {
+							var index = this._ignore.indexOf(property);
+
+							if (index > -1) {
+								_.pullAt(this._ignore, index);
+							}
+
+							return this;
+						}
+					},
+					ignoreProperty: {
+						value: function(property) {
+							if (this._ignore.indexOf(property) > -1) {
+								this._ignore.push(property);
+							}
+
+							return this;
+						}
+					},
 					toJSON: {
 						value: function() {
 							var result = proto.toJSON.apply(this);
 
-							_.forEach(options.ignoreProperties, function(prop) {
+							_.forEach(this._ignore, function(prop) {
 								delete result[prop];
 							});
+
+							delete result._ignore;
 
 							return result;
 						}
@@ -94,9 +120,10 @@
 				// add sugar method:
 				// $delete -> delete
 				// $save -> save
+				// ...
 				_.forEach(options.resource.methods, function(method, name) {
 					if (method) {
-						if (_.isFunction(Model.prototype['$' + name])) {
+						if (_.isFunction(proto['$' + name])) {
 							proto[name] = proto['$' + name];
 						}
 					}
@@ -111,7 +138,10 @@
 					}
 				});
 
-				return Model;
+				return {
+					class: Model,
+					base: Object.getPrototypeOf(proto)
+				};
 			}
 		};
 	};

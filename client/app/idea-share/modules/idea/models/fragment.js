@@ -10,30 +10,30 @@
 					ideaId: '@_idea._id'
 				}
 			},
-			ignoreProperties: ['_idea']
+			instantiation: {
+				_ignore: ['_idea']
+			}
 		});
 
-		var base = Object.getPrototypeOf(Fragment.prototype);
-
-		Object.defineProperty(Fragment.prototype, 'belongsTo', {
+		Object.defineProperty(Fragment.class.prototype, 'belongsTo', {
 			value: function(idea) {
 				this._idea = idea;
 				return this;
 			}
 		});
 
-		Object.defineProperty(Fragment.prototype, 'save', {
+		Object.defineProperty(Fragment.class.prototype, 'save', {
 			value: function() {
 				var self = this;
 				var idea = self._idea;
 
-				return base.save.apply(this).then(function() {
+				return Fragment.base.save.apply(this).then(function() {
 					return self.belongsTo(idea);
 				});
 			}
 		});
 
-		return Fragment;
+		return Fragment.class;
 	};
 
 	FragmentFactory.$inject = [

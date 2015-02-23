@@ -2,11 +2,16 @@
 	'use strict';
 
 	var Idea = function(resolvedIdea, $location, $scope, Fragment, Idea) {
-		$scope.isCreate = !resolvedIdea._id;
 		$scope.idea = resolvedIdea;
 
+		if (resolvedIdea._id) {
+			$scope.new = false;
+		} else {
+			$scope.new = true;
+			$scope.idea.includeProperty('fragments');
+		}
+
 		$scope.saveIdea = function() {
-			// console.log(resolvedIdea instanceof Idea);
 			$scope.idea.save().then(function(idea) {
 				if ($scope.isCreate) {
 					$location.url('/ideas/' + $scope.idea._id);

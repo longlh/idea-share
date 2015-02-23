@@ -11,6 +11,7 @@
 			},
 			instantiation: {
 				defaultProperties: {
+					_ignore: ['comments', 'fragments', 'owner'],
 					fragments: [],
 					comments: []
 				},
@@ -21,11 +22,10 @@
 						self.fragments[index] = new Fragment(fragment).belongsTo(self);
 					});
 				}
-			},
-			ignoreProperties: ['comments', 'owner']
+			}
 		});
 
-		return Idea;
+		return Idea.class;
 	};
 
 	IdeaFactory.$inject = [

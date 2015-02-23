@@ -9,7 +9,7 @@
 			Storage.session = session;
 
 			// store token in cookies
-			$cookieStore.put(Session.KEY, Storage.session.token);
+			$cookieStore.put(Session.class.KEY, Storage.session.token);
 
 			return Storage.session;
 		};
@@ -19,7 +19,7 @@
 			Storage.session = null;
 
 			// clear cookie
-			$cookieStore.remove(Session.KEY);
+			$cookieStore.remove(Session.class.KEY);
 
 			return response;
 		};
@@ -55,11 +55,11 @@
 			}
 		});
 
-		Object.defineProperty(Session, 'KEY', {
+		Object.defineProperty(Session.class, 'KEY', {
 			value: 'token'
 		});
 
-		return Session;
+		return Session.class;
 	};
 
 	SessionFactory.$inject = [
