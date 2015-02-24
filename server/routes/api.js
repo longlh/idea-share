@@ -1,6 +1,7 @@
 'use strict';
 
 var auth = rek('server/middlewares/auth');
+var comment = rek('server/middlewares/comment');
 var idea = rek('server/middlewares/idea');
 
 module.exports = function(app) {
@@ -12,15 +13,10 @@ module.exports = function(app) {
 			.delete(auth.destroySession);
 
 	app.route('/api/ideas')
-			.get(function getIdeas(req, res, next) {
-				res.json([{
-					id: 1,
-					brief: 'idea 1'
-				}, {
-					id: 2,
-					brief: 'idea 2'
-				}]);
-			})
+			.get(
+					auth.identifySession,
+					idea.query
+			)
 			.post(
 					auth.identifySession,
 					idea.save
@@ -42,11 +38,11 @@ module.exports = function(app) {
 					idea.save
 			);
 
-	app.route('/api/ideas/:ideaId/fragments')
+	app.route('/api/ideas/:id/fragments')
 			.post(
 					auth.identifySession,
 					idea.get({
-						identifier: 'ideaId'
+						identifier: 'id'
 					}),
 					idea.saveFragment
 			);
@@ -72,5 +68,21 @@ module.exports = function(app) {
 						identifier: 'ideaId'
 					}),
 					idea.deleteFragment
+			);
+
+	app.route('/api/ideas/:id/comments')
+			.get(
+					auth.identifySession,
+					idea.get({
+						identifier: 'id'
+					}),
+					comment.query
+			)
+			.post(
+					auth.identifySession,
+					idea.get({
+						identifier: 'id'
+					}),
+					comment.save
 			);
 };

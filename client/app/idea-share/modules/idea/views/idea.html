@@ -1,17 +1,31 @@
 <h1>Idea</h1>
-<input type="test" data-ng-model="idea.brief" data-ng-show="idea.editable">
-<span data-ng-hide="idea.editable">{{idea.brief}}</span>
-<button type="button" data-ng-click="saveIdea()" data-ng-show="idea.editable">Change</button>
-<hr>
-<div data-ng-repeat="frag in idea.fragments">
-	<textarea data-ng-model="frag.content" data-ng-show="frag._edit"></textarea>
-	<pre data-ng-hide="frag._edit">{{frag.content}}</pre>
-	<br>
-	<button type="button" data-ng-click="editFragment(frag)" data-ng-if="idea.editable" data-ng-hide="frag._edit">Edit</button>
-	<button type="button" data-ng-click="saveFragment(frag)" data-ng-if="idea.editable" data-ng-show="!new && frag._edit">Save</button>
-	<button type="button" data-ng-click="discardFragmentChanges(frag)" data-ng-if="idea.editable" data-ng-show="!new && frag._edit">Discard</button>
-	<button type="button" data-ng-click="deleteFragment(frag, $index)" data-ng-if="idea.editable">Delete</button>
-	<hr>
-</div>
+<div class="row">
+	<div class="col-5">
+		<input type="test" data-ng-model="idea.brief" data-ng-show="idea.editable">
+		<span data-ng-hide="idea.editable">{{idea.brief}}</span>
+		<button type="button" data-ng-click="saveIdea()" data-ng-show="idea.editable">Change</button>
+		<hr>
+		<div data-ng-repeat="frag in idea.fragments">
+			<textarea rows="3" data-ng-model="frag.content" data-ng-show="frag._edit"></textarea>
+			<pre data-ng-hide="frag._edit">{{frag.content}}</pre>
+			<br>
+			<button type="button" data-ng-click="editFragment(frag)" data-ng-if="idea.editable" data-ng-hide="frag._edit">Edit</button>
+			<button type="button" data-ng-click="saveFragment(frag)" data-ng-if="idea.editable" data-ng-show="!new && frag._edit">Save</button>
+			<button type="button" data-ng-click="discardFragmentChanges(frag)" data-ng-if="idea.editable" data-ng-show="!new && frag._edit">Discard</button>
+			<button type="button" data-ng-click="deleteFragment(frag, $index)" data-ng-if="idea.editable">Delete</button>
+			<hr>
+		</div>
 
-<button type="button" data-ng-click="addFragment()" data-ng-if="idea.editable">Add fragments</button>
+		<button type="button" data-ng-click="addFragment()" data-ng-if="idea.editable">Add fragments</button>
+	</div>
+	<div class="col-5">
+		<textarea rows="3" data-ng-model="newComment.content"></textarea>
+		<button type="button" data-ng-click="postComment()">Post</button>
+		<hr>
+		<div>
+			<div data-ng-repeat="comment in comments">
+				<pre>{{comment.content}}</pre>
+			</div>
+		</div>
+	</div>
+</div>

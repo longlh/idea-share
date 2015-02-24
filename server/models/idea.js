@@ -7,7 +7,7 @@ var ideaSchema = new Schema({
 	owner: {
 		type: Schema.ObjectId,
 		ref: 'Account',
-		// required: true
+		required: true
 	},
 	brief: {
 		type: String,
@@ -24,17 +24,12 @@ var ideaSchema = new Schema({
 		},
 		deleted: {
 			type: Boolean,
-			default: false,
-			required: true
+			default: false
 		},
 		created: {
 			type: Date,
 			default: Date.now
 		}
-	}],
-	comments: [{
-		type: Schema.ObjectId,
-		ref: 'Comment'
 	}],
 	created: {
 		type: Date,

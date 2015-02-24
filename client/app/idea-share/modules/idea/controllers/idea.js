@@ -1,8 +1,19 @@
 ;(function() {
 	'use strict';
 
-	var Idea = function(resolvedIdea, $location, $scope, Fragment, Idea) {
+	var Idea = function(resolvedIdea, $location, $scope, Comment, Fragment, Idea) {
 		$scope.idea = resolvedIdea;
+
+		$scope.newComment = new Comment({
+			idea: $scope.idea._id
+		});
+
+		Comment.query({
+			idea: $scope.idea._id
+		}).then(function queryDone(comments) {
+			console.log(comments);
+			$scope.comments = comments;
+		});
 
 		if (resolvedIdea._id) {
 			$scope.new = false;
@@ -40,12 +51,22 @@
 		$scope.editFragment = function(fragment) {
 			fragment.editable(true);
 		};
+
+		$scope.postComment = function() {
+			$scope.newComment.save().then(function(comment) {
+				$scope.comments.push(comment);
+
+				$scope.newComment = new Comment({
+					idea: $scope.idea._id
+				});
+			});
+		};
 	};
 
 	Idea.$inject = [
 		'idea',
 		'$location', '$scope',
-		'app.idea.models.Fragment', 'app.idea.models.Idea'
+		'app.idea.models.Comment', 'app.idea.models.Fragment', 'app.idea.models.Idea'
 	];
 
 	angular.module('app.idea').controller('app.idea.controllers.Idea', Idea);

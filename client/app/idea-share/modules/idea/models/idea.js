@@ -30,13 +30,11 @@
 				var index = self.fragments.indexOf(fragment);
 
 				if (index > -1) {
-					if (fragment._id) {
-						return fragment.save().then(function saveDone(frag) {
-							self.fragments[index] = frag.belongsTo(self);
-						});
-					} else {
-						return $q.when();
-					}
+					return fragment.save().then(function saveDone(frag) {
+						self.fragments[index] = frag.belongsTo(self);
+
+						return frag;
+					});
 				}
 			}
 		});

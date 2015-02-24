@@ -7,8 +7,14 @@ var mongoose = require('mongoose');
 var self = module.exports;
 var Idea = mongoose.model('Idea');
 
-function checkIdeaEditable(account, idea) {
+function checkIdeaEditable(idea, account) {
 	return account && idea && idea.owner && idea.owner._id.toString() === account._id.toString();
+}
+
+function refineIdeaObject(idea, account) {
+	return _.assign(idea.toObject(), {
+		editable: checkIdeaEditable(idea, account)
+	});
 }
 
 self.get = function(options) {
@@ -17,18 +23,28 @@ self.get = function(options) {
 		var query = Idea.findById(id).populate('owner', 'email enable');
 		var getIdea = bird.promisify(query.exec, query);
 
-		getIdea().then(function(idea) {
+		return getIdea().then(function(idea) {
 			if (options.finally) {
-				return res.json(_.assign({
-					editable: checkIdeaEditable(req._account, idea)
-				}, idea.toObject()));
+				return res.json(refineIdeaObject(idea, req._account));
 			}
 
 			req._idea = idea;
 
-			next();
+			return next();
 		});
 	};
+};
+
+self.query = function(req, res, next) {
+	// TODO add search criteria
+	var query = Idea.find().populate('owner', 'email enable');
+	var getIdeas = bird.promisify(query.exec, query);
+
+	return getIdeas().then(function getIdeasDone(ideas) {
+		return res.json(_.map(ideas, function iterate(idea) {
+			return refineIdeaObject(idea, req._account);
+		}));
+	});
 };
 
 self.save = function(req, res, next) {
@@ -51,7 +67,7 @@ self.save = function(req, res, next) {
 		});
 	}
 
-	job.then(function saveDone(idea) {
+	return job.then(function saveDone(idea) {
 		return res.json(_.omit(idea, 'comments'));
 	}).catch(function handleError(e) {
 		res.status(500).json(e);
@@ -101,7 +117,7 @@ self.saveFragment = function(req, res, next) {
 	var id = req.params.id;
 	var job = id ? updateExistedFragment : insertFragment;
 
-	job(req, res, id).catch(function handleError(e) {
+	return job(req, res, id).catch(function handleError(e) {
 		res.status(500).json(e);
 	});
 };
@@ -128,5 +144,5 @@ self.deleteFragment = function(req, res, next) {
 };
 
 self.getFragment = function(req, res, next) {
-	res.json(req._idea.fragments.id(req.params.id));
+	return res.json(req._idea.fragments.id(req.params.id));
 };

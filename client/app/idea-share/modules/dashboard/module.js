@@ -25,6 +25,6 @@
 
 	angular.module('app.dashboard', [
 		'ngRoute',
-		'app.template', 'app.auth'
+		'app.template', 'app.auth', 'app.idea'
 	]).config(config);
 }());

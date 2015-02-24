@@ -1,1 +1,8 @@
 <h1>dashboard</h1>
+<div>
+	<div data-ng-repeat="idea in ideas track by $index">
+		<a href="#/ideas/{{idea._id}}">{{idea.brief}}</a><br>
+		<span>{{idea.fragments.length}} fragment(s)</span>
+		<hr>
+	</div>
+</div>
