@@ -1,16 +1,17 @@
 <h1>Idea</h1>
-<input type="test" data-ng-model="idea.brief">
-<button type="button" data-ng-click="saveIdea()">Change</button>
+<input type="test" data-ng-model="idea.brief" data-ng-show="idea.editable">
+<span data-ng-hide="idea.editable">{{idea.brief}}</span>
+<button type="button" data-ng-click="saveIdea()" data-ng-show="idea.editable">Change</button>
 <hr>
 <div data-ng-repeat="frag in idea.fragments">
 	<textarea data-ng-model="frag.content" data-ng-show="frag._edit"></textarea>
 	<pre data-ng-hide="frag._edit">{{frag.content}}</pre>
 	<br>
-	<button type="button" data-ng-click="editFragment(frag)" data-ng-hide="frag._edit">Edit</button>
-	<button type="button" data-ng-click="saveFragment(frag)" data-ng-show="!new && frag._edit">Save</button>
-	<button type="button" data-ng-click="discardFragmentChanges(frag)" data-ng-show="!new && frag._edit">Discard</button>
-	<button type="button" data-ng-click="deleteFragment(frag, $index)">Delete</button>
+	<button type="button" data-ng-click="editFragment(frag)" data-ng-if="idea.editable" data-ng-hide="frag._edit">Edit</button>
+	<button type="button" data-ng-click="saveFragment(frag)" data-ng-if="idea.editable" data-ng-show="!new && frag._edit">Save</button>
+	<button type="button" data-ng-click="discardFragmentChanges(frag)" data-ng-if="idea.editable" data-ng-show="!new && frag._edit">Discard</button>
+	<button type="button" data-ng-click="deleteFragment(frag, $index)" data-ng-if="idea.editable">Delete</button>
 	<hr>
 </div>
 
-<button type="button" data-ng-click="addFragment()">Add fragments</button>
+<button type="button" data-ng-click="addFragment()" data-ng-if="idea.editable">Add fragments</button>

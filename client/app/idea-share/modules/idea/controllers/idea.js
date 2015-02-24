@@ -8,6 +8,7 @@
 			$scope.new = false;
 		} else {
 			$scope.new = true;
+			$scope.idea.editable = true;
 			$scope.idea.includeProperty('fragments');
 		}
 
@@ -20,7 +21,8 @@
 		};
 
 		$scope.addFragment = function() {
-			$scope.idea.fragments.push(new Fragment().belongsTo($scope.idea));
+			$scope.idea.fragments.push(new Fragment().belongsTo($scope.idea).editable
+				(true));
 		};
 
 		$scope.saveFragment = function(fragment) {

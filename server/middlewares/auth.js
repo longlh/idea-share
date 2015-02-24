@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var bird = require('bluebird');
 var mongoose = require('mongoose');
 var redis = require('redis');
@@ -19,10 +20,9 @@ var enforceSession = function(token, account) {
 	return rSet('session:' + token, account.id).then(function saveTokenDone(reply) {
 		return rExpire('session:' + token, 60e3);
 	}).then(function setTokenExpireDone(reply) {
-		return {
-			token: token,
-			id: account.id
-		};
+		return _.assign({
+			token: token
+		}, _.pick(account, 'id', 'email'));
 	});
 };
 

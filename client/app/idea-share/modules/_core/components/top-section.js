@@ -1,14 +1,19 @@
 ;(function() {
 	'use strict';
 
-	var TopSection = function() {
+	var TopSection = function(Storage) {
 		return {
 			restrict: 'E',
-			templateUrl: '/modules/_core/components/top-section.html'
+			templateUrl: '/modules/_core/components/top-section.html',
+			controller: ['$scope', function($scope) {
+				$scope.storage = Storage;
+			}]
 		};
 	};
 
-	TopSection.$inject = [];
+	TopSection.$inject = [
+		'app.share.models.Storage'
+	];
 
 	angular.module('app.core').directive('topSection', TopSection);
 }());

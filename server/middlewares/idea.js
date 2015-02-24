@@ -7,6 +7,10 @@ var mongoose = require('mongoose');
 var self = module.exports;
 var Idea = mongoose.model('Idea');
 
+function checkIdeaEditable(account, idea) {
+	return account && idea && idea.owner && idea.owner._id.toString() === account._id.toString();
+}
+
 self.get = function(options) {
 	return function(req, res, next) {
 		var id = req.params[options.identifier];
@@ -15,10 +19,13 @@ self.get = function(options) {
 
 		getIdea().then(function(idea) {
 			if (options.finally) {
-				return res.json(idea);
+				return res.json(_.assign({
+					editable: checkIdeaEditable(req._account, idea)
+				}, idea.toObject()));
 			}
 
 			req._idea = idea;
+
 			next();
 		});
 	};
