@@ -12,10 +12,15 @@
 			instantiation: {
 				defaultProperties: {
 					_ignore: ['fragments', 'owner'],
-					fragments: []
+					fragments: [new Fragment().editable(true)]
 				},
 				construct: function() {
 					var self = this;
+
+					if (self._id) {
+						self.created = moment(self.createdUTC);
+						self.modified = moment(self.modifiedUTC);
+					}
 
 					_.forEach(self.fragments, function(fragment, index) {
 						self.fragments[index] = new Fragment(fragment).belongsTo(self);

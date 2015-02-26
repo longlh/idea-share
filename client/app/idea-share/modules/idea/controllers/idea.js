@@ -4,19 +4,20 @@
 	var Idea = function(resolvedIdea, $location, $scope, Comment, Fragment, Idea) {
 		$scope.idea = resolvedIdea;
 
-		$scope.newComment = new Comment({
-			idea: $scope.idea._id
-		});
-
-		Comment.query({
-			idea: $scope.idea._id
-		}).then(function queryDone(comments) {
-			console.log(comments);
-			$scope.comments = comments;
-		});
-
-		if (resolvedIdea._id) {
+		if ($scope.idea._id) {
 			$scope.new = false;
+
+			// init new comment
+			$scope.newComment = new Comment({
+				idea: $scope.idea._id
+			});
+
+			// load comments
+			Comment.query({
+				idea: $scope.idea._id
+			}).then(function queryDone(comments) {
+				$scope.comments = comments;
+			});
 		} else {
 			$scope.new = true;
 			$scope.idea.editable = true;
@@ -54,7 +55,8 @@
 
 		$scope.postComment = function() {
 			$scope.newComment.save().then(function(comment) {
-				$scope.comments.push(comment);
+
+				$scope.comments.splice(0, 0, comment);
 
 				$scope.newComment = new Comment({
 					idea: $scope.idea._id

@@ -1,11 +1,10 @@
 {
 	"js": {
 		"build/.tmp/jsmin/idea-share.js": [
+			"client/vendors/moment/min/moment-with-locales.min.js",
 			"client/vendors/lodash/lodash.min.js",
-			"client/vendors/fingerprint/fingerprint.js",
 			"client/vendors/angular/angular.min.js",
 			"client/vendors/angular-*/angular-*.min.js",
-			"client/vendors/restangular/dist/restangular.min.js",
 			"client/app/idea-share/modules/*/module.js",
 			"client/app/idea-share/modules/*/*/**/*.js",
 			"client/app/idea-share/app.js",

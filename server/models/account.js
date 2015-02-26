@@ -25,7 +25,13 @@ var accountSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-	salt: String
+	salt: String,
+	profile: {
+		displayName: {
+			type: String,
+			required: true
+		}
+	}
 });
 
 // methods

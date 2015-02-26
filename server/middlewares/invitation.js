@@ -43,6 +43,7 @@ self.process = function(req, res, next) {
 	var code = req.params.code;
 	var email = req.body.email;
 	var password = req.body.password;
+	var displayName = req.body.displayName || email;
 	var usingInvitation;
 
 	findInvitation(code).then(function findInvitationDone(invitation) {
@@ -50,7 +51,10 @@ self.process = function(req, res, next) {
 		if (invitation) {
 			var account = new Account({
 					email: email,
-					password: password
+					password: password,
+					profile: {
+						displayName: displayName
+					}
 				});
 			var createAccount = bird.promisify(account.save, account);
 

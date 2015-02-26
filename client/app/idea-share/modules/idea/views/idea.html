@@ -9,6 +9,9 @@
 			<textarea rows="3" data-ng-model="frag.content" data-ng-show="frag._edit"></textarea>
 			<pre data-ng-hide="frag._edit">{{frag.content}}</pre>
 			<br>
+			<p style="text-align: right;">
+				<span>Modifed <span sh-auto-refresh>{{frag.modified.fromNow()}}</span></span>
+			</p>
 			<button type="button" data-ng-click="editFragment(frag)" data-ng-if="idea.editable" data-ng-hide="frag._edit">Edit</button>
 			<button type="button" data-ng-click="saveFragment(frag)" data-ng-if="idea.editable" data-ng-show="!new && frag._edit">Save</button>
 			<button type="button" data-ng-click="discardFragmentChanges(frag)" data-ng-if="idea.editable" data-ng-show="!new && frag._edit">Discard</button>
@@ -18,13 +21,14 @@
 
 		<button type="button" data-ng-click="addFragment()" data-ng-if="idea.editable">Add fragments</button>
 	</div>
-	<div class="col-5">
+	<div class="col-5" data-ng-if="!new">
 		<textarea rows="3" data-ng-model="newComment.content"></textarea>
 		<button type="button" data-ng-click="postComment()">Post</button>
 		<hr>
 		<div>
 			<div data-ng-repeat="comment in comments">
 				<pre>{{comment.content}}</pre>
+				<span><b>{{comment.owner.profile.displayName}}</b> posted <span sh-auto-refresh>{{comment.created.fromNow()}}</span></span>
 			</div>
 		</div>
 	</div>

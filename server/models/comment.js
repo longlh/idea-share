@@ -28,4 +28,12 @@ var commentSchema = new Schema({
 	}
 });
 
+commentSchema.set('toObject', {
+	virtuals: true
+});
+
+commentSchema.virtual('createdUTC').get(function() {
+	return this.created.valueOf();
+});
+
 mongoose.model('Comment', commentSchema);

@@ -8,7 +8,9 @@ var self = module.exports;
 var Idea = mongoose.model('Idea');
 
 function checkIdeaEditable(idea, account) {
-	return account && idea && idea.owner && idea.owner._id.toString() === account._id.toString();
+	return account && idea && idea.owner &&
+			(idea.owner.toString() === account._id.toString() ||
+			idea.owner._id.toString() === account._id.toString());
 }
 
 function refineIdeaObject(idea, account) {
@@ -20,7 +22,7 @@ function refineIdeaObject(idea, account) {
 self.get = function(options) {
 	return function(req, res, next) {
 		var id = req.params[options.identifier];
-		var query = Idea.findById(id).populate('owner', 'email enable');
+		var query = Idea.findById(id).populate('owner', 'profile');
 		var getIdea = bird.promisify(query.exec, query);
 
 		return getIdea().then(function(idea) {
@@ -68,7 +70,7 @@ self.save = function(req, res, next) {
 	}
 
 	return job.then(function saveDone(idea) {
-		return res.json(_.omit(idea, 'comments'));
+		return res.json(refineIdeaObject(idea, req._account));
 	}).catch(function handleError(e) {
 		res.status(500).json(e);
 	});
@@ -82,7 +84,8 @@ function updateExistedFragment(req, res, id) {
 		'fragments._id': id
 	}, {
 		$set: {
-			'fragments.$.content': req.body.content
+			'fragments.$.content': req.body.content,
+			'fragments.$.modified': new Date()
 		}
 	}, {
 		select: ['fragments']
@@ -91,7 +94,7 @@ function updateExistedFragment(req, res, id) {
 	var saveFragment = bird.promisify(query.exec, query);
 
 	return saveFragment().then(function saveFragmentDone(idea) {
-		return res.json(idea.fragments.id(id));
+		return res.json(idea.fragments.id(id).toObject());
 	});
 }
 
@@ -144,5 +147,5 @@ self.deleteFragment = function(req, res, next) {
 };
 
 self.getFragment = function(req, res, next) {
-	return res.json(req._idea.fragments.id(req.params.id));
+	return res.json(req._idea.fragments.id(req.params.id).toObject());
 };

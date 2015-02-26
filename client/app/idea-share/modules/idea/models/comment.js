@@ -11,7 +11,12 @@
 				}
 			},
 			instantiation: {
-
+				defaultProperties: {
+					_ignore: ['created']
+				},
+				construct: function() {
+					this.created = moment(this.createdUTC);
+				}
 			}
 		});
 

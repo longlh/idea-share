@@ -16,7 +16,7 @@ function refineCommentObject(comment, account) {
 self.query = function(req, res, next) {
 	var query = Comment.find({
 		idea: req._idea.id
-	}).sort('created').populate('owner', 'email enabled');
+	}).sort('-created').populate('owner', 'profile');
 
 	var getComments = bird.promisify(query.exec, query);
 
@@ -37,7 +37,7 @@ self.save = function(req, res, next) {
 
 	return saveComment().spread(function saveDone(comment) {
 		return res.json(_.assign(refineCommentObject(comment, req._account), {
-			owner: _.pick(req._account, '_id', 'email', 'enabled')
+			owner: _.pick(req._account, '_id', 'profile')
 		}));
 	});
 };

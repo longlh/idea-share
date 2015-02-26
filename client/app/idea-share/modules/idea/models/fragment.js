@@ -11,7 +11,17 @@
 				}
 			},
 			instantiation: {
-				_ignore: ['_idea', '_edit']
+				defaultProperties: {
+					_ignore: ['_idea', '_edit', 'created', 'createdUTC', 'modified', 'modifiedUTC']
+				},
+				construct: function() {
+					if (this._id) {
+						// console.log(this.createdUTC);
+						// console.log(new Date(this.createdUTC));
+						this.created = moment(this.createdUTC);
+						this.modified = moment(this.modifiedUTC);
+					}
+				}
 			}
 		});
 

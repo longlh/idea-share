@@ -22,7 +22,7 @@ var enforceSession = function(token, account) {
 	}).then(function setTokenExpireDone(reply) {
 		return _.assign({
 			token: token
-		}, _.pick(account, 'id', 'email'));
+		}, _.pick(account, 'profile'));
 	});
 };
 
