@@ -41,7 +41,7 @@ fragmentSchema.virtual('modifiedUTC').get(function() {
 var ideaSchema = new Schema({
 	owner: {
 		type: Schema.ObjectId,
-		ref: 'Account',
+		ref: 'Profile',
 		required: true
 	},
 	brief: {

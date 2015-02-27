@@ -10,7 +10,7 @@ var commentSchema = new Schema({
 	},
 	owner: {
 		type: Schema.ObjectId,
-		ref: 'Account',
+		ref: 'Profile',
 		required: true
 	},
 	idea: {

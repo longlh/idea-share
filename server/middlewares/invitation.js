@@ -4,7 +4,7 @@ var bird = require('bluebird');
 var mongoose = require('mongoose');
 
 var self = module.exports;
-var Account = mongoose.model('Account');
+var Profile = mongoose.model('Profile');
 var Invitation = mongoose.model('Invitation');
 
 function findInvitation(code) {
@@ -29,11 +29,11 @@ self.render = function(req, res, next) {
 			invitation.email = email;
 		}
 
-		res.render('invitation', {
+		res.render('auth/invitation', {
 			invitation: invitation
 		});
 	}).catch(function handleError(error) {
-		res.render('invitation', {
+		res.render('auth/invitation', {
 			error: error
 		});
 	});
@@ -49,24 +49,24 @@ self.process = function(req, res, next) {
 	findInvitation(code).then(function findInvitationDone(invitation) {
 		// invitation is matched with code and not used yet
 		if (invitation) {
-			var account = new Account({
+			var profile = new Profile({
 					email: email,
 					password: password,
-					profile: {
+					public: {
 						displayName: displayName
 					}
 				});
-			var createAccount = bird.promisify(account.save, account);
+			var createProfile = bird.promisify(profile.save, profile);
 
 			// store working invitation
 			usingInvitation = invitation;
 
-			return createAccount();
+			return createProfile();
 		}
 
 		return bird.reject();
 
-	}).spread(function createAccountDone() {
+	}).spread(function createProfileDone() {
 		var consumeInvitation = bird.promisify(usingInvitation.save, usingInvitation);
 
 		usingInvitation.used = true;

@@ -1,0 +1,81 @@
+<% extend '_share/layout.ect' %>
+
+<% block 'end-head': %>
+<link rel="stylesheet" href="<%= @__css('invitation.css') %>">
+<% end %>
+
+<section class="form invitation">
+	<div class="form-line">
+		<h1>Invitation</h1>
+	</div>
+	<% if @invitation: %>
+	<form action="<%= @_url('page.invitation', { code: @invitation.code }) %>" method="post" autocomplete="off">
+		<input type="hidden" name="invitation" value="<%= @invitation.id %>">
+		<div class="form-line">
+			<h2>Connect us via Social Networks</h2>
+		</div>
+		<div class="form-line break">
+			<button type="button">Google</button>
+			<button type="button">Facebook</button>
+			<button type="button">Twitter</button>
+		</div>
+		<div class="form-line">
+			<h2>Or please tell us a little about yourself</h2>
+		</div>
+		<div class="form-line">
+			<div class="form-label">
+				<label>Display name</label>
+			</div>
+			<div class="form-value">
+				<input type="text" name="displayName">
+			</div>
+		</div>
+		<div class="form-line">
+			<div class="form-label">
+				<label>Email</label>
+			</div>
+			<div class="form-value">
+				<input type="text" name="email" value="<%= @invitation.email %>">
+			</div>
+		</div>
+		<!--
+		<div class="form-line break">
+			<div class="form-label">
+				<label>Location</label>
+			</div>
+			<div class="form-value">
+				<select>
+					<option value="vn">Vietnam</option>
+				</select>
+			</div>
+		</div>
+		-->
+		<div class="form-line">
+			<h2>Choose your ID & password</h2>
+		</div>
+		<div class="form-line">
+			<div class="form-label">
+				<label>ID</label>
+			</div>
+			<div class="form-value">
+				<input type="text" name="id"required>
+			</div>
+		</div>
+		<div class="form-line break">
+			<div class="form-label">
+				<label>Password</label>
+			</div>
+			<div class="form-value">
+				<input type="password" name="password" required>
+			</div>
+		</div>
+		<div class="form-line">
+			<button type="submit">Create account</button>
+		</div>
+	</form>
+	<% else: %>
+	<div class="form-line">
+		<span>The requested invitation is expired or used</span>
+	</div>
+	<% end %>
+</section>

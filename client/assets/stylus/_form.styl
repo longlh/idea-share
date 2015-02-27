@@ -1,0 +1,115 @@
+@import 'kouto-swiss'
+@import '_define.styl'
+
+/* define */
+color-control-border = #ccc
+color-control-border-focus = #51A9FF
+height-form-line = 30px
+space-form = 5px
+width-label = 150px
+
+/* mixin */
+hightlight-control(color)
+	outline none
+	border 1px solid color
+	box-shadow 0 0 3px 0 color
+
+.form
+
+	.form-line
+		clearfix()
+		padding space-form
+
+		.form-label
+			size width-label false
+			line-height height-form-line
+			float left
+
+		.form-value
+			margin-left width-label
+			line-height height-form-line
+
+			input[type="text"]
+			input[type="password"]
+			input[type="email"]
+			select
+				size 100% height-form-line
+
+			textarea
+				size 100% false
+
+	fieldset
+		border 1px solid color-control-border
+		margin (space-form * 4) space-form
+
+		legend
+			padding space-form
+
+	.break
+		margin-bottom height-form-line
+
+input[type="text"]
+input[type="password"]
+input[type="email"]
+select
+textarea
+	border 1px solid color-control-border
+	padding space-form
+
+	&:hover
+		hightlight-control(color-control-border)
+
+	&:focus
+		hightlight-control(color-control-border-focus)
+
+input[type="button"]
+input[type="submit"]
+input[type="reset"]
+button
+.button
+	display inline-block
+	border 1px solid color-control-border
+	padding space-form
+	size false (height-form-line * 1.2)
+	background white
+	font-weight bold
+	min-width width-label
+	margin-bottom space-form
+
+	&:hover
+		hightlight-control(color-control-border)
+
+	&:active
+		hightlight-control(color-control-border-focus)
+
+input[type="checkbox"]
+input[type="radio"]
+	display none
+
+	& + label i
+		display inline-block
+		size base-font-size + 2
+		padding 2px
+		border 1px solid color-control-border
+		cursor pointer
+		vertical-align middle
+		margin -2px 6px 0 0
+
+	& + label i:hover
+		hightlight-control(color-control-border)
+
+	& + label i:active
+		hightlight-control(color-control-border-focus)
+
+	&:checked + label i:after
+		content ''
+		display block
+		size base-font-size - 4
+		background color-control-border
+
+input[type="radio"]
+	& + label i
+		border-radius (base-font-size / 2)
+
+	& + label i:after
+		border-radius ((base-font-size - 4) / 2)

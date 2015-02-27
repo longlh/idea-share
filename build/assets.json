@@ -12,11 +12,15 @@
 		]
 	},
 	"css": {
-		"build/.tmp/cssmin/index.css": [
-			"build/.tmp/css/index.css"
+		"build/.tmp/cssmin/app.css": [
+			"build/.tmp/css/app.css"
 		],
 		"build/.tmp/cssmin/invitation.css": [
 			"build/.tmp/css/invitation.css"
+		],
+
+		"build/.tmp/cssmin/sign-in.css": [
+			"build/.tmp/css/sign-in.css"
 		]
 	}
 }
