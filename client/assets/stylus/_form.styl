@@ -86,6 +86,9 @@ input[type="checkbox"]
 input[type="radio"]
 	display none
 
+	& + label
+		user-select none
+
 	& + label i
 		display inline-block
 		size base-font-size + 2
@@ -95,17 +98,23 @@ input[type="radio"]
 		vertical-align middle
 		margin -2px 6px 0 0
 
-	& + label i:hover
+	& + label:hover i
 		hightlight-control(color-control-border)
 
-	& + label i:active
+	& + label:active i
 		hightlight-control(color-control-border-focus)
 
-	&:checked + label i:after
+	& + label i:after
 		content ''
 		display block
 		size base-font-size - 4
+
+
+	&:checked + label i:after
 		background color-control-border
+
+	& + label:active i:after
+		background color-control-border-focus
 
 input[type="radio"]
 	& + label i
