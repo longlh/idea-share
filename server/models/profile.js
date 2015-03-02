@@ -8,10 +8,7 @@ var Schema = mongoose.Schema;
 var accountSchema = new Schema({
 	uid: {
 		type: String,
-		required: true,
-		index: {
-			unique: true
-		}
+		required: true
 	},
 	kind: {
 		type: String,
@@ -19,6 +16,14 @@ var accountSchema = new Schema({
 	},
 	salt: String,
 	hashedPassword: String
+});
+
+accountSchema.index({
+	uid: 1,
+	kind: -1
+}, {
+	unique: true,
+	sparse: true
 });
 
 // methods

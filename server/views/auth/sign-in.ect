@@ -8,45 +8,56 @@
 	<div class="ui-line">
 		<h1>Sign in</h1>
 	</div>
-	<form action="<%= @_url('auth.sign-in') %>" method="post">
-		<div class="ui-line">
-			<h2>Connect us via Social Networks</h2>
-		</div>
-		<div class="ui-line break">
-			<button type="button"><i class="fa fa-google fa-lg"></i>Google</button>
-			<button type="button"><i class="fa fa-facebook fa-lg"></i>Facebook</button>
-			<button type="button"><i class="fa fa-twitter fa-lg"></i>Twitter</button>
-		</div>
-		<div class="ui-line">
-			<h2>Or please enter your ID & password</h2>
-		</div>
-		<div class="ui-line">
-			<div class="form-label">
-				<label>ID</label>
+	<div class="grid">
+		<div class="row">
+			<div class="col">
+				<div class="ui-line">
+					<h2>Connect us via Social Networks</h2>
+				</div>
+				<div class="ui-line">
+					<button type="button" class="button-low">
+						<i class="fa fa-google fa-lg"></i>Google</button>
+					<button type="button" class="button-low">
+						<i class="fa fa-facebook fa-lg"></i>Facebook</button>
+				</div>
 			</div>
-			<div class="form-value">
-				<input type="text" name="id" required>
+			<div class="col">
+				<form action="<%= @_url('auth.sign-in') %>" method="post">
+
+					<div class="ui-line">
+						<h2>Or please enter your ID & password</h2>
+					</div>
+					<div class="ui-line">
+						<div class="form-label">
+							<label>ID</label>
+						</div>
+						<div class="form-value">
+							<input type="text" name="id" required>
+						</div>
+					</div>
+					<div class="ui-line">
+						<div class="form-label">
+							<span>Password</span>
+						</div>
+						<div class="form-value">
+							<input type="password" name="password" required>
+						</div>
+					</div>
+					<div class="ui-line break">
+						<div class="form-value">
+							<input type="checkbox" name="remember" id="remember">
+							<label for="remember"><i></i>Remember me</label>
+						</div>
+					</div>
+					<div class="ui-line">
+						<button type="submit" class="button-full button-high">Sign in</button>
+					</div>
+					<div class="ui-line text-right">
+						<a href="#">Forgot your password?</a>
+					</div>
+
+				</form>
 			</div>
 		</div>
-		<div class="ui-line">
-			<div class="form-label">
-				<span>Password</span>
-			</div>
-			<div class="form-value">
-				<input type="password" name="password" required>
-			</div>
-		</div>
-		<div class="ui-line break">
-			<div class="form-value">
-				<input type="checkbox" name="remember" id="remember">
-				<label for="remember"><i></i>Remember me</label>
-			</div>
-		</div>
-		<div class="ui-line">
-			<button type="submit" class="button-full button-high">Sign in</button>
-		</div>
-		<div class="ui-line text-right">
-			<a href="#">Forgot your password?</a>
-		</div>
-	</form>
+	</div>
 </section>

@@ -62,6 +62,8 @@ self.consumeInvitation = function(req, res, next) {
 					email: email
 				}
 			});
+
+			console.log(profile);
 			var createProfile = bird.promisify(profile.save, profile);
 
 			// store working invitation
@@ -81,12 +83,13 @@ self.consumeInvitation = function(req, res, next) {
 
 		return consumeInvitation();
 	}).spread(function consumeInvitationDone() {
-		// res._redirect('page.index');
-		res._redirect('page.invitation', {
-			code: code,
-			email: email
-		});
+		res._redirect('page.landing');
+		// res._redirect('page.invitation', {
+		// 	code: code,
+		// 	email: email
+		// });
 	}).catch(function handleError(error) {
+		console.log(error);
 		res._redirect('page.invitation', {
 			code: code,
 			email: email

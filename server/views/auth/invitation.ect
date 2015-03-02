@@ -9,70 +9,70 @@
 		<h1>Invitation</h1>
 	</div>
 	<% if @invitation: %>
-	<form action="<%= @_url('page.invitation', { code: @invitation.code }) %>" method="post" autocomplete="off">
-		<input type="hidden" name="invitation" value="<%= @invitation.id %>">
-		<div class="ui-line">
-			<h2>Connect us via Social Networks</h2>
-		</div>
-		<div class="ui-line break">
-			<button type="button"><i class="fa fa-google fa-lg"></i>Google</button>
-			<button type="button"><i class="fa fa-facebook fa-lg"></i>Facebook</button>
-			<button type="button"><i class="fa fa-twitter fa-lg"></i>Twitter</button>
-		</div>
-		<div class="ui-line">
-			<h2>Or please tell us a little about yourself</h2>
-		</div>
-		<div class="ui-line">
-			<div class="form-label">
-				<label>Display name</label>
+	<div class="grid">
+		<div class="row">
+			<div class="col">
+				<div class="ui-line">
+					<h2>Connect us via Social Networks</h2>
+				</div>
+				<div class="ui-line">
+					<button type="button">
+						<i class="fa fa-google fa-lg"></i>Google</button>
+					<button type="button">
+						<i class="fa fa-facebook fa-lg"></i>Facebook</button>
+				</div>
 			</div>
-			<div class="form-value">
-				<input type="text" name="displayName">
+			<div class="col">
+				<form action="<%= @_url('page.invitation', { code: @invitation.code }) %>" method="post" autocomplete="off">
+
+					<input type="hidden" name="invitation" value="<%= @invitation.id %>">
+
+					<div class="ui-line">
+						<h2>Or please tell us a little about yourself</h2>
+					</div>
+					<div class="ui-line">
+						<div class="form-label">
+							<label>Display name</label>
+						</div>
+						<div class="form-value">
+							<input type="text" name="displayName">
+						</div>
+					</div>
+					<div class="ui-line break-half">
+						<div class="form-label">
+							<label>Email</label>
+						</div>
+						<div class="form-value">
+							<input type="text" name="email" value="<%= @invitation.email %>">
+						</div>
+					</div>
+					<div class="ui-line">
+						<h2>Choose your ID & password</h2>
+					</div>
+					<div class="ui-line">
+						<div class="form-label">
+							<label>ID</label>
+						</div>
+						<div class="form-value">
+							<input type="text" name="id"required>
+						</div>
+					</div>
+					<div class="ui-line break">
+						<div class="form-label">
+							<label>Password</label>
+						</div>
+						<div class="form-value">
+							<input type="password" name="password" required>
+						</div>
+					</div>
+					<div class="ui-line">
+						<button type="submit" class="button-full button-high">Accept Invitation</button>
+					</div>
+
+				</form>
 			</div>
 		</div>
-		<div class="ui-line break-half">
-			<div class="form-label">
-				<label>Email</label>
-			</div>
-			<div class="form-value">
-				<input type="text" name="email" value="<%= @invitation.email %>">
-			</div>
-		</div>
-		<!--
-		<div class="ui-line break">
-			<div class="form-label">
-				<label>Location</label>
-			</div>
-			<div class="form-value">
-				<select>
-					<option value="vn">Vietnam</option>
-				</select>
-			</div>
-		</div>
-		-->
-		<div class="ui-line">
-			<h2>Choose your ID & password</h2>
-		</div>
-		<div class="ui-line">
-			<div class="form-label">
-				<label>ID</label>
-			</div>
-			<div class="form-value">
-				<input type="text" name="id"required>
-			</div>
-		</div>
-		<div class="ui-line break">
-			<div class="form-label">
-				<label>Password</label>
-			</div>
-			<div class="form-value">
-				<input type="password" name="password" required>
-			</div>
-		</div>
-		<div class="ui-line">
-			<button type="submit" class="button-full button-high">Accept Invitation</button>
-		</div>
-	</form>
+	</div>
 	<% else: %>
 	<div class="ui-line">
 		<i class="fa fa-warning fa-2x"></i>
