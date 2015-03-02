@@ -7,6 +7,8 @@
 			templateUrl: '/modules/_core/components/top-section.html',
 			controller: ['$scope', function($scope) {
 				$scope.storage = Storage;
+
+				console.log(Storage);
 			}]
 		};
 	};

@@ -7,5 +7,6 @@ module.exports = {
 		region: 'us-west-2',
 		accessKeyId: '',
 		secretAccessKey: ''
-	}
+	},
+	cosumeInvitation: false
 };

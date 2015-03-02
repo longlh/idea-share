@@ -11,7 +11,13 @@ if (profiles.indexOf(env) === -1) {
 
 var all = {
 		port: 3002,
-		env: env
+		env: env,
+		cosumeInvitation: true,
+		session: {
+			key: '_^_^__mln',
+			secret: 'nlm__^_^_',
+			maxAge: 3600e3 // 1 hour
+		}
 	};
 
 var profile = require(path.resolve(__dirname, env));

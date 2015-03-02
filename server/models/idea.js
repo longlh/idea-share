@@ -31,11 +31,11 @@ fragmentSchema.set('toObject', {
 });
 
 fragmentSchema.virtual('createdUTC').get(function() {
-	return this.created.valueOf();
+	return this.created && this.created.valueOf();
 });
 
 fragmentSchema.virtual('modifiedUTC').get(function() {
-	return this.modified.valueOf();
+	return this.modified && this.modified.valueOf();
 });
 
 var ideaSchema = new Schema({
@@ -64,11 +64,11 @@ ideaSchema.set('toObject', {
 });
 
 ideaSchema.virtual('createdUTC').get(function() {
-	return this.created.valueOf();
+	return this.created && this.created.valueOf();
 });
 
 ideaSchema.virtual('modifiedUTC').get(function() {
-	return this.modified.valueOf();
+	return this.created && this.modified.valueOf();
 });
 
 ideaSchema.pre('save', function(next) {

@@ -1,11 +1,12 @@
 @import 'kouto-swiss'
 @import '_define.styl'
+@require '_grid.styl'
 
 /* define */
-color-control-border = #ccc
-color-control-border-focus = #51A9FF
-height-form-line = 30px
-space-form = 5px
+color-control-border = base-color-border
+color-control-border-focus = #51a9ff
+height-form-line = base-height-ui-line
+space-form = base-padding-ui-line
 width-label = 150px
 
 /* mixin */
@@ -15,28 +16,29 @@ hightlight-control(color)
 	box-shadow 0 0 3px 0 color
 
 .form
-
-	.form-line
+	.ui-line
 		clearfix()
-		padding space-form
 
 		.form-label
+		.form-label-large
 			size width-label false
-			line-height height-form-line
 			float left
 
 		.form-value
 			margin-left width-label
 			line-height height-form-line
 
-			input[type="text"]
-			input[type="password"]
-			input[type="email"]
-			select
-				size 100% height-form-line
+		label
+			line-height height-form-line
 
-			textarea
-				size 100% false
+		input:not([type])
+		input[type="text"]
+		input[type="password"]
+		input[type="email"]
+		select
+		textarea
+			width 100%
+			resize none
 
 	fieldset
 		border 1px solid color-control-border
@@ -45,9 +47,14 @@ hightlight-control(color)
 		legend
 			padding space-form
 
-	.break
-		margin-bottom height-form-line
+input:not([type])
+input[type="text"]
+input[type="password"]
+input[type="email"]
+select
+	height height-form-line
 
+input:not([type])
 input[type="text"]
 input[type="password"]
 input[type="email"]
@@ -57,10 +64,11 @@ textarea
 	padding space-form
 
 	&:hover
-		hightlight-control(color-control-border)
+		hightlight-control color-control-border
 
+	&:active
 	&:focus
-		hightlight-control(color-control-border-focus)
+		hightlight-control color-control-border-focus
 
 input[type="button"]
 input[type="submit"]
@@ -70,17 +78,42 @@ button
 	display inline-block
 	border 1px solid color-control-border
 	padding space-form
-	size false (height-form-line * 1.2)
+	height (height-form-line * 1.2)
 	background white
 	font-weight bold
 	min-width width-label
 	margin-bottom space-form
 
 	&:hover
-		hightlight-control(color-control-border)
+		hightlight-control color-control-border
 
 	&:active
-		hightlight-control(color-control-border-focus)
+	&:focus
+		hightlight-control color-control-border-focus
+
+	&.button-min
+		min-width 0
+
+	&.button-small
+		min-width (width-label / 2)
+
+	&.button-large
+		min-width (width-label * 1.5)
+
+	&.button-full
+		width 100%
+
+	&.button-low
+		height height-form-line
+
+	&.button-high
+		height (height-form-line * 1.4)
+
+	&.button-full.button-high
+		text-transform uppercase
+
+	&.button-light
+		border-color transparent
 
 input[type="checkbox"]
 input[type="radio"]
@@ -91,34 +124,36 @@ input[type="radio"]
 
 	& + label i
 		display inline-block
-		size base-font-size + 2
-		padding 2px
+		size base-size-font + 2
+		padding 3px
 		border 1px solid color-control-border
 		cursor pointer
 		vertical-align middle
 		margin -2px 6px 0 0
 
 	& + label:hover i
-		hightlight-control(color-control-border)
+		hightlight-control color-control-border
 
 	& + label:active i
-		hightlight-control(color-control-border-focus)
+	& + label:focus i
+		hightlight-control color-control-border-focus
 
 	& + label i:after
 		content ''
 		display block
-		size base-font-size - 4
+		size base-size-font - 6
 
 
 	&:checked + label i:after
 		background color-control-border
 
 	& + label:active i:after
+	& + label:focus i:after
 		background color-control-border-focus
 
 input[type="radio"]
 	& + label i
-		border-radius (base-font-size / 2)
+		border-radius (base-size-font / 2)
 
 	& + label i:after
-		border-radius ((base-font-size - 4) / 2)
+		border-radius ((base-size-font - 6) / 2)

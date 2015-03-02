@@ -6,6 +6,9 @@ var express = require('express');
 var fs = require('fs');
 var mongoose = require('mongoose');
 var path = require('path');
+var session = require('express-session');
+
+var RedisStore = require('connect-redis')(session);
 
 var conf = rek('env/profiles/all');
 
@@ -36,10 +39,30 @@ app.use(bodyParser.urlencoded({
 // use cookie-parser
 app.use(cookieParser());
 
+// use express session
+app.use(session({
+	store: new RedisStore({
+		host: 'localhost',
+		port: 6379,
+		ttl: 3600
+	}),
+	name: conf.session.key,
+	secret: conf.session.secret,
+	unset: 'destroy',
+	rolling: true,
+	saveUninitialized: false,
+	resave: false
+}));
+
 // AUTOLOAD: server/models/*
 fs.readdirSync(path.resolve(__dirname, 'models')).forEach(function(file) {
 	rek('server/models/' + file);
 });
+
+// use passport
+var passport = rek('server/libs/passport');
+app.use(passport.initialize());
+app.use(passport.session());
 
 // load routes
 // AUTOLOAD: server/routes/*

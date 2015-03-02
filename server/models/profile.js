@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var crypto = require('crypto');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
@@ -26,7 +27,6 @@ accountSchema.methods = {
 		return crypto.randomBytes(1 << 4).toString('base64');
 	},
 	makeHashedPassword: function(password) {
-		console.log(this.toObject());
 		if (!password || !this.salt) {
 			return '';
 		}
@@ -55,7 +55,7 @@ var profileSchema = new Schema({
 		},
 		avatar: String
 	},
-	account: [accountSchema],
+	accounts: [accountSchema],
 	enable: {
 		type: Boolean,
 		default: true
@@ -65,5 +65,15 @@ var profileSchema = new Schema({
 		default: Date.now
 	}
 });
+
+profileSchema.methods = {
+	authenticate: function(password) {
+		var internalAccount = _.find(this.accounts, {
+			kind: 'internal'
+		});
+
+		return internalAccount && internalAccount.authenticate(password);
+	}
+};
 
 mongoose.model('Profile', profileSchema);

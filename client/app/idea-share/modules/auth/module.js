@@ -55,8 +55,7 @@
 		'$routeProvider'
 	];
 
-	var run = function($cookieStore, $location, $rootScope, Session, Storage) {
-
+	var run = function($location, $rootScope, Session, Storage, token) {
 		$rootScope.$on('$routeChangeError', function(event, next, previous, error) {
 
 			if (error === 401) {
@@ -66,17 +65,14 @@
 		});
 
 		// restore a not-validate-yet session from cookie
-		if (!Storage.session && $cookieStore.get(Session.KEY)) {
-
-			Storage.session = new Session({
-				token: $cookieStore.get(Session.KEY)
-			});
-		}
+		Storage.session = new Session({
+			token: token
+		});
 	};
 
 	run.$inject = [
-		'$cookieStore', '$location', '$rootScope',
-		'app.auth.models.Session', 'app.share.models.Storage'
+		'$location', '$rootScope',
+		'app.auth.models.Session', 'app.share.models.Storage', 'app.auth.constants.token'
 	];
 
 	angular.module('app.auth', [

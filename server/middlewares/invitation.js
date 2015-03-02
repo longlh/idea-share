@@ -2,6 +2,7 @@
 
 var bird = require('bluebird');
 var mongoose = require('mongoose');
+var conf = rek('env/profiles/all');
 
 var self = module.exports;
 var Profile = mongoose.model('Profile');
@@ -39,23 +40,28 @@ self.render = function(req, res, next) {
 	});
 };
 
-self.process = function(req, res, next) {
+self.consumeInvitation = function(req, res, next) {
 	var code = req.params.code;
+	var id = req.body.id;
 	var email = req.body.email;
 	var password = req.body.password;
-	var displayName = req.body.displayName || email;
+	var displayName = req.body.displayName || email || id;
 	var usingInvitation;
 
 	findInvitation(code).then(function findInvitationDone(invitation) {
 		// invitation is matched with code and not used yet
 		if (invitation) {
 			var profile = new Profile({
-					email: email,
-					password: password,
-					public: {
-						displayName: displayName
-					}
-				});
+				accounts: [{
+					kind: 'internal',
+					uid: id,
+					password: password
+				}],
+				public: {
+					displayName: displayName,
+					email: email
+				}
+			});
 			var createProfile = bird.promisify(profile.save, profile);
 
 			// store working invitation
@@ -69,11 +75,17 @@ self.process = function(req, res, next) {
 	}).spread(function createProfileDone() {
 		var consumeInvitation = bird.promisify(usingInvitation.save, usingInvitation);
 
-		usingInvitation.used = true;
+		if (conf.consumeInvitation) {
+			usingInvitation.used = true;
+		}
 
 		return consumeInvitation();
 	}).spread(function consumeInvitationDone() {
-		res._redirect('page.index');
+		// res._redirect('page.index');
+		res._redirect('page.invitation', {
+			code: code,
+			email: email
+		});
 	}).catch(function handleError(error) {
 		res._redirect('page.invitation', {
 			code: code,

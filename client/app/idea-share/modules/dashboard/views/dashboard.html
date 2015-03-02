@@ -1,8 +1,9 @@
-<h1>dashboard</h1>
+<div class="top-heading">
+	<h1>dashboard</h1>
+</div>
 <div>
-	<div data-ng-repeat="idea in ideas track by $index">
+	<div data-ng-repeat="idea in ideas track by $index" class="line-form break-half">
 		<a href="#/ideas/{{idea._id}}">{{idea.brief}}</a><br>
 		<span>{{idea.fragments.length}} fragment(s)</span>
-		<hr>
 	</div>
 </div>

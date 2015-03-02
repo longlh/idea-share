@@ -7,27 +7,27 @@ var mongoose = require('mongoose');
 var self = module.exports;
 var Idea = mongoose.model('Idea');
 
-function checkIdeaEditable(idea, account) {
-	return account && idea && idea.owner &&
-			(idea.owner.toString() === account._id.toString() ||
-			idea.owner._id.toString() === account._id.toString());
+function checkIdeaEditable(idea, profile) {
+	return profile && idea && idea.owner &&
+			(idea.owner.toString() === profile._id.toString() ||
+			idea.owner._id.toString() === profile._id.toString());
 }
 
-function refineIdeaObject(idea, account) {
+function refineIdeaObject(idea, profile) {
 	return _.assign(idea.toObject(), {
-		editable: checkIdeaEditable(idea, account)
+		editable: checkIdeaEditable(idea, profile)
 	});
 }
 
 self.get = function(options) {
 	return function(req, res, next) {
 		var id = req.params[options.identifier];
-		var query = Idea.findById(id).populate('owner', 'profile');
+		var query = Idea.findById(id).populate('owner', 'public');
 		var getIdea = bird.promisify(query.exec, query);
 
 		return getIdea().then(function(idea) {
 			if (options.finally) {
-				return res.json(refineIdeaObject(idea, req._account));
+				return res.json(refineIdeaObject(idea, req._profile));
 			}
 
 			req._idea = idea;
@@ -39,12 +39,12 @@ self.get = function(options) {
 
 self.query = function(req, res, next) {
 	// TODO add search criteria
-	var query = Idea.find().populate('owner', 'email enable');
+	var query = Idea.find().populate('owner', 'public');
 	var getIdeas = bird.promisify(query.exec, query);
 
 	return getIdeas().then(function getIdeasDone(ideas) {
 		return res.json(_.map(ideas, function iterate(idea) {
-			return refineIdeaObject(idea, req._account);
+			return refineIdeaObject(idea, req._profile);
 		}));
 	});
 };
@@ -59,10 +59,10 @@ self.save = function(req, res, next) {
 
 		job = updateIdea();
 	} else {
-		// set idea's owner is logged-in account
+		// set idea's owner is logged-in profile
 		var idea = new Idea(req.body);
 		var insertIdea = bird.promisify(idea.save, idea);
-		idea.owner = req._account.id;
+		idea.owner = req._profile.id;
 
 		job = insertIdea().spread(function insertIdeaDone(idea) {
 			return idea;
@@ -70,7 +70,7 @@ self.save = function(req, res, next) {
 	}
 
 	return job.then(function saveDone(idea) {
-		return res.json(refineIdeaObject(idea, req._account));
+		return res.json(refineIdeaObject(idea, req._profile));
 	}).catch(function handleError(e) {
 		res.status(500).json(e);
 	});

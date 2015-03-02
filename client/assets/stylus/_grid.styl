@@ -1,22 +1,37 @@
 @import 'kouto-swiss'
 @require '_define.styl'
 
-gs-col-no = 10
-
-body
-	gs('fluid', gs-col-no)
-
-.row
-	row()
-	clearfix()
-
-for num in (1..gs-col-no)
-	.col-{num}
-		col(num)
-
-
 for width in (1..10)
 	.panel-{width * 100}
 		margin-left auto
 		margin-right auto
 		max-width (width * 100)px
+		overflow hidden
+
+.grid
+	display table
+	width 100%
+	table-layout fixed
+
+	.row
+		display table-row
+
+		.col
+			display table-cell
+			padding-left 10px
+			padding-right 10px
+
+			&:first-of-type
+				padding-left 0
+
+			&:last-of-type
+				padding-right 0
+
+.ui-line
+	padding base-padding-ui-line
+
+	&.break
+		margin-bottom base-height-ui-line
+
+	&.break-half
+		margin-bottom (base-height-ui-line / 2)

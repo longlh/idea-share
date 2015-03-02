@@ -1,2 +1,34 @@
+@import 'kouto-swiss';
+@require '_define.styl'
 @require '_core.styl'
+@require '_form.styl'
 @require '_top-section.styl'
+
+.app-view
+	position relative
+
+.view
+	&.ng-enter,
+	&.ng-leave
+		transition all .3s ease
+
+	&.ng-enter
+	&.ng-enter-active
+		position relative
+
+	&.ng-enter
+		left -100%
+
+	&.ng-enter-active
+		left 0
+
+	&.ng-leave
+	&.ng-leave-active
+		position absolute
+		width 100%
+
+	&.ng-leave
+		right 0
+
+	&.ng-leave-active
+		right -100%

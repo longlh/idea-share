@@ -7,16 +7,39 @@ meyer-reset()
 box-sizing-reset()
 normalize()
 
+html
+	color base-color-text
+
+	& *
+	& *:after
+	& *:before
+		color inherit
+
 body
-	font-size base-font-size
-	font-family "Courier New",Courier,"Lucida Sans Typewriter","Lucida Typewriter",monospace
+	font-size base-size-font
+	font-family base-font-family
 
 h1
 	text-transform uppercase
+	margin 0
+	padding 0.67em 0
 
 h2
-	margin .3em 0
+	margin 0
+	padding .3em 0
 	font-weight bold
+
+pre
+	overflow visible
+	font-family inherit
+	word-break break-word
+
+a
+	color blue
+
+/* classes */
+.fa
+	padding 0 3px
 
 .text-left
 	text-align left
@@ -30,3 +53,15 @@ h2
 .center
 	margin-left auto
 	margin-right auto
+
+.pull-left
+	float left
+
+.pull-right
+	float-right
+
+.clearfix
+	clearfix()
+
+.ng-cloak
+	display none

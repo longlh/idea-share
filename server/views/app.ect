@@ -1,0 +1,19 @@
+<% extend '_share/layout.ect' %>
+
+<% block 'end-head': %>
+<link rel="stylesheet" href="<%= @__css('app.css') %>">
+<% end %>
+
+<% block 'end-body': %>
+<script src="<%= @__js('idea-share.js') %>"></script>
+<script type="text/javascript">
+<!--
+	angular.module('app.auth').constant('app.auth.constants.token', '<%= @token %>');
+-->
+</script>
+<% end %>
+
+<div class="app-view" data-ng-controller="app.core.controllers.Main as main">
+	<x-top-section></x-top-section>
+	<div data-ng-view class="view"></div>
+</div>

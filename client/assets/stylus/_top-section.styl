@@ -1,10 +1,58 @@
 @import 'kouto-swiss'
 @require '_define.styl'
 
-.top-section
-	background #ccc
-	border-bottom 1px solid black
+padding-menu = 10px
+height-menu = 50px
+color-menu = extended-analogous(#51a9ff)
+
+.top-heading
+	height (padding-menu * 2 + height-menu)
+	line-height (padding-menu * 2 + height-menu)
+	margin-bottom (padding-menu * 2)
+
+	h1
+		display inline
+
+.top-menu
+	z-index 1
+	absolute 0 0 false false
 	color white
-	line-height 50px
-	> div
-		font-weight bold
+	background white
+	height (height-menu + padding-menu * 2)
+	padding padding-menu
+
+	ul
+		clearfix()
+		border 1px solid #333
+
+		li
+			float left
+
+			a
+				transition all .3s ease
+				display inline-block
+				padding 0 (padding-menu * 1.5)
+				color white
+				text-decoration none
+				font-weight bold
+				white-space nowrap
+				text-transform uppercase
+				line-height height-menu
+				background black
+
+				&:hover
+					background #666
+
+				&.highlight
+					font-size 1.1em
+					background white
+					color #333
+
+					&:hover
+						background #ccc
+
+					.fa
+						padding 0 10px 0 0
+
+
+

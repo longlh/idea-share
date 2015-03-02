@@ -78,6 +78,18 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		copy: {
+			font: {
+				files: [{
+					expand: true,
+					cwd: 'client/vendors/font-awesome/',
+					src: [
+						'fonts/*'
+					],
+					dest: 'build/public/'
+				}]
+			}
+		},
 		stylus: {
 			options: {
 				use: [
@@ -211,19 +223,29 @@ module.exports = function(grunt) {
 				debounceDelay: 2000,
 				interval: 500
 			},
-			client: {
+			css: {
 				files: [
-					assetDef,
-					'<%= jshint.client.src %>',
 					'client/assets/img/**',
 					'client/assets/stylus/**/*.styl',
-					'client/app/**/*.html',
 					'!client/assets/stylus/_define.styl',
 					'!build/**'
 				],
 				tasks: [
+					'cssbuild',
+					'rev',
+					'express:dev'
+				]
+			},
+			js: {
+				files: [
+					'<%= jshint.client.src %>',
+					'client/app/**/*.html',
+
+				],
+				tasks: [
 					'jshint:client',
-					'build',
+					'jsbuild',
+					'rev',
 					'express:dev'
 				]
 			},
@@ -254,18 +276,36 @@ module.exports = function(grunt) {
 		'jshint'
 	]);
 
-	grunt.registerTask('build', [
-		'clean:build',
+	grunt.registerTask('cssbuild', [
+		'copy:font',
 		'filerev:img',
-		'replace', 'stylus', 'cssmin',
-		'ngtemplates', 'uglify',
-		'filerev:css', 'filerev:js', 'filerev_assets',
-		'clean:tmp'
+		'replace', 'stylus', 'cssmin'
+	]);
+
+	grunt.registerTask('jsbuild', [
+		'ngtemplates', 'uglify'
+	]);
+
+	grunt.registerTask('rev', [
+		'filerev:css', 'filerev:js', 'filerev_assets'
+	]);
+
+	grunt.registerTask('build', [
+		'cssbuild',
+		'jsbuild',
+		'rev',
 	]);
 
 	grunt.registerTask('default', [
 		'verify',
+		'clean:build',
 		'build',
+		'express:dev',
+		'clean:tmp',
+		'watch'
+	]);
+
+	grunt.registerTask('quick', [
 		'express:dev',
 		'watch'
 	]);

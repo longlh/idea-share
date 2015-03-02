@@ -13,14 +13,17 @@
 	},
 	"css": {
 		"build/.tmp/cssmin/app.css": [
-			"build/.tmp/css/app.css"
+			"build/.tmp/css/app.css",
+			"client/vendors/font-awesome/css/font-awesome.min.css"
 		],
 		"build/.tmp/cssmin/invitation.css": [
-			"build/.tmp/css/invitation.css"
+			"build/.tmp/css/invitation.css",
+			"client/vendors/font-awesome/css/font-awesome.min.css"
 		],
 
 		"build/.tmp/cssmin/sign-in.css": [
-			"build/.tmp/css/sign-in.css"
+			"build/.tmp/css/sign-in.css",
+			"client/vendors/font-awesome/css/font-awesome.min.css"
 		]
 	}
 }
