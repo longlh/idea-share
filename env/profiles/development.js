@@ -8,5 +8,12 @@ module.exports = {
 		accessKeyId: '',
 		secretAccessKey: ''
 	},
-	cosumeInvitation: false
+	cosumeInvitation: false,
+	oauth: {
+		google: {
+			clientId: '19650001560-pktpk190g880rkb5eh388t1peamj993b.apps.googleusercontent.com',
+			clientSecret: 'C0jkAi4YG6RpgjrOb3lBDHnO',
+			callback: 'http://localhost:3002/oauth/google'
+		}
+	}
 };

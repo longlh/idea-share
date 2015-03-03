@@ -10,6 +10,7 @@ if (profiles.indexOf(env) === -1) {
 }
 
 var all = {
+		https: false,
 		port: 3002,
 		env: env,
 		cosumeInvitation: true,

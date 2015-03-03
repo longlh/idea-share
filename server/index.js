@@ -51,7 +51,11 @@ app.use(session({
 	unset: 'destroy',
 	rolling: true,
 	saveUninitialized: false,
-	resave: false
+	resave: false,
+	cookie: {
+		secure: conf.https,
+		httpOnly: true
+	}
 }));
 
 // AUTOLOAD: server/models/*
