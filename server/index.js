@@ -37,7 +37,10 @@ app.use(bodyParser.urlencoded({
 }));
 
 // use cookie-parser
-app.use(cookieParser());
+app.use(cookieParser(conf.session.secret, {
+	secure: conf.https,
+	httpOnly: true
+}));
 
 // use express session
 app.use(session({
