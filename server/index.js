@@ -55,6 +55,7 @@ app.use(session({
 	rolling: true,
 	saveUninitialized: false,
 	resave: false,
+	proxy: true,
 	cookie: {
 		secure: conf.https,
 		httpOnly: true

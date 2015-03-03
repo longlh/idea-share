@@ -8,7 +8,7 @@ module.exports = {
 		accessKeyId: '',
 		secretAccessKey: ''
 	},
-	cosumeInvitation: false,
+	consumeInvitation: false,
 	oauth: {
 		google: {
 			clientId: '19650001560-pktpk190g880rkb5eh388t1peamj993b.apps.googleusercontent.com',

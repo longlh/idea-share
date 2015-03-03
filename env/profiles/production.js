@@ -2,7 +2,7 @@
 
 module.exports = {
 	https: true,
-	db: 'mongodb://localhost/idea-share',
+	db: 'mongodb://localhost/indie-codes',
 	oauth: {
 		google: {
 			clientId: '19650001560-pktpk190g880rkb5eh388t1peamj993b.apps.googleusercontent.com',
