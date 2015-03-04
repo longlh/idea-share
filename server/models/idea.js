@@ -6,7 +6,8 @@ var Schema = mongoose.Schema;
 var fragmentSchema = new Schema({
 	content: {
 		type: String,
-		required: true
+		required: true,
+		default: '(No content)'
 	},
 	ref: {
 		type: Schema.ObjectId,
@@ -46,7 +47,8 @@ var ideaSchema = new Schema({
 	},
 	brief: {
 		type: String,
-		required: true
+		required: true,
+		default: '(No title)'
 	},
 	fragments: [fragmentSchema],
 	created: {

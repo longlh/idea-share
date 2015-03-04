@@ -32,3 +32,168 @@
 
 	&.ng-leave-active
 		right -100%
+
+/* pages: idea.html */
+width-fragment-tree-indicator = 60px
+width-small-indicator = 15px
+width-large-indicator = 35px
+
+.idea-fragment
+	clearfix()
+	position relative
+	padding-bottom 10px
+
+	.indicator
+		float left
+		width width-fragment-tree-indicator
+
+		.fragment-dot
+			position relative
+			z-index 1
+			border 1px solid base-color-border
+			background whitesmoke
+
+	.content
+		margin-left width-fragment-tree-indicator
+
+	&.main
+	&.element
+		.indicator
+			&:after
+				display block
+				content ''
+				position absolute
+				bottom -5px
+				top 30px
+				left (width-fragment-tree-indicator / 2)
+				width 1px
+				border-right 1px solid base-color-border
+
+	&.element
+		.fragment-dot
+			size width-small-indicator
+			border-radius (width-small-indicator / 2 + 1)
+			margin-left ((width-fragment-tree-indicator - width-small-indicator) / 2)
+			margin-top 10px
+
+			.connect-line
+				position absolute
+				border-top 1px solid base-color-border
+				width 22px
+				transform rotate(-45deg)
+				left 18px
+				top -3px
+
+		.content
+			border-top 1px solid base-color-border
+
+	&.main
+	&.end
+		padding-bottom 20px
+
+		.fragment-dot
+			@extend .text-center
+			size width-large-indicator
+			border-radius (width-large-indicator / 2 + 1)
+			margin-left ((width-fragment-tree-indicator - width-large-indicator) / 2)
+			background-color white
+			line-height (width-large-indicator + 2)
+
+			&.multiple-lines
+				margin-top 13px
+
+width-comment-owner = 60px
+width-avatar = 32px
+
+.idea-comment
+	clearfix()
+	padding 10px 0
+
+	.comment-owner
+		@extend .text-center
+		float right
+		width width-comment-owner
+
+		&.self
+			float left
+
+		.avatar
+			display inline-block
+			border 1px solid base-color-border
+			size width-avatar
+			line-height (width-avatar + 2)
+
+		.comment-owner-name
+			padding-top base-padding-ui-line
+			font-weight bold
+
+	.comment-content
+		padding base-padding-ui-line
+		margin 0 width-comment-owner
+		border 1px solid base-color-border
+		border-bottom none
+
+		time
+			@extend .text-right
+			padding-top (base-padding-ui-line * 2)
+			display block
+
+/* pages: dashboard.html */
+
+/* directives */
+width-text-box-controls = 60px
+
+.text-box-component
+	position relative
+
+	.text-box-controls
+		@extend .text-right
+		position absolute
+		top 0
+		right 0
+		size width-text-box-controls 100%
+		padding base-padding-ui-line
+		line-height (base-height-ui-line - base-padding-ui-line * 2)
+		white-space nowrap
+
+		.text-box-control
+			cursor pointer
+
+	input
+		width 100%
+		padding-right (base-padding-ui-line + width-text-box-controls)
+
+		&.inactive
+			border none
+
+		&.inactive:hover
+		&.inactive:focus
+			box-shadow none
+			border none
+
+.text-area-expandable
+	overflow hidden
+
+.text-area-component
+
+	.text-area-controls
+		@extend .text-right
+		white-space nowrap
+		padding base-padding-ui-line
+		line-height (base-height-ui-line - base-padding-ui-line * 2)
+		height base-height-ui-line
+
+		.text-area-control
+			cursor pointer
+
+	textarea
+		width 100%
+		resize none
+
+		&.inactive
+			border none
+
+		&.inactive:hover
+		&.inactive:focus
+			box-shadow none
+			border none

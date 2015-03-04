@@ -18,6 +18,15 @@
 			}).then(function queryDone(comments) {
 				$scope.comments = comments;
 			});
+
+			// create brief binding
+			$scope.bindings = {
+				brief: {
+					value: $scope.idea,
+					key: 'brief',
+					editable: $scope.new
+				}
+			};
 		} else {
 			$scope.new = true;
 			$scope.idea.editable = true;
@@ -25,7 +34,7 @@
 		}
 
 		$scope.saveIdea = function() {
-			$scope.idea.save().then(function saveDone(idea) {
+			return $scope.idea.save().then(function saveDone(idea) {
 				if ($scope.new) {
 					$location.url('/ideas/' + idea._id);
 				}
@@ -33,24 +42,17 @@
 		};
 
 		$scope.addFragment = function() {
-			$scope.idea.fragments.push(new Fragment().belongsTo($scope.idea).editable
-				(true));
+			if ($scope.idea.editable) {
+				$scope.idea.fragments.push(new Fragment().belongsTo($scope.idea));
+			}
 		};
 
-		$scope.saveFragment = function(fragment) {
-			$scope.idea.saveFragment(fragment.editable(false));
-		};
-
-		$scope.discardFragmentChanges = function(fragment) {
-			$scope.idea.reloadFragment(fragment.editable(false));
+		$scope.saveFragment = function(deferred, fragment) {
+			return $scope.idea.saveFragment(fragment);
 		};
 
 		$scope.deleteFragment = function(fragment) {
 			$scope.idea.removeFragment(fragment);
-		};
-
-		$scope.editFragment = function(fragment) {
-			fragment.editable(true);
 		};
 
 		$scope.postComment = function() {

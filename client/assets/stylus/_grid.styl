@@ -18,8 +18,8 @@ for width in (1..10)
 
 		.col
 			display table-cell
-			padding-left 10px
-			padding-right 10px
+			padding-left 20px
+			padding-right 20px
 
 			&:first-of-type
 				padding-left 0
@@ -35,3 +35,12 @@ for width in (1..10)
 
 	&.break-half
 		margin-bottom (base-height-ui-line / 2)
+
+	.pull-left
+	.pull-right
+		padding base-padding-ui-line
+
+	time
+		line-height (base-height-ui-line - base-padding-ui-line)
+
+

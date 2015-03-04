@@ -93,7 +93,7 @@ function updateExistedFragment(req, res, id) {
 
 	var saveFragment = bird.promisify(query.exec, query);
 
-	return saveFragment().then(function saveFragmentDone(idea) {
+	return saveFragment().delay(2000).then(function saveFragmentDone(idea) {
 		return res.json(idea.fragments.id(id).toObject());
 	});
 }

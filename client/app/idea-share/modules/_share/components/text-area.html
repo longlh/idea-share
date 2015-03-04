@@ -1,0 +1,9 @@
+<div class="text-area-component">
+	<textarea sh-expandable data-ng-model="model[key]" data-ng-readonly="state != 1" data-ng-class="{ inactive: state != 1 }"></textarea>
+	<div class="text-area-controls" data-ng-if="showControls">
+		<i class="fa fa-circle-o-notch fa-fw" data-ng-class="{ 'fa-spin': state == 2 }" data-ng-show="state == 2"></i>
+		<i class="fa fa-edit fa-fw text-area-control" data-ng-show="state == 0" data-ng-click="enableEdit()"></i>
+		<i class="fa fa-save fa-fw text-area-control" data-ng-show="state == 1" data-ng-click="save()"></i>
+		<i class="fa fa-remove fa-fw text-area-control" data-ng-show="state == 1" data-ng-click="discard()">
+	</div>
+</div>

@@ -9,7 +9,8 @@ var self = module.exports;
 
 function refineCommentObject(comment, profile) {
 	return _.assign(comment.toObject(), {
-		self: profile.id.toString() === comment.owner.id.toString()
+		self: profile.id.toString() === comment.owner.toString() ||
+				profile.id.toString() === comment.owner.id.toString()
 	});
 }
 

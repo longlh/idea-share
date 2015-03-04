@@ -4,3 +4,4 @@
 /build/rev.json
 /build/reports
 /build/.tmp
+/client/assets/stylus/_define.styl

@@ -217,11 +217,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			options: {
-				maxListeners: 99,
-				spawn: false,
-				interrupt: true,
-				debounceDelay: 2000,
-				interval: 500
+				spawn: false
 			},
 			css: {
 				files: [
