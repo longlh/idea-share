@@ -41,7 +41,7 @@ width-large-indicator = 35px
 .idea-fragment
 	clearfix()
 	position relative
-	padding-bottom 10px
+	padding-bottom (base-padding-ui-line * 2)
 
 	.indicator
 		float left
@@ -51,7 +51,7 @@ width-large-indicator = 35px
 			position relative
 			z-index 1
 			border 1px solid base-color-border
-			background whitesmoke
+			background white
 
 	.content
 		margin-left width-fragment-tree-indicator
@@ -89,7 +89,7 @@ width-large-indicator = 35px
 
 	&.main
 	&.end
-		padding-bottom 20px
+		padding-bottom (base-padding-ui-line * 5)
 
 		.fragment-dot
 			@extend .text-center
@@ -100,10 +100,17 @@ width-large-indicator = 35px
 			line-height (width-large-indicator + 2)
 
 			&.multiple-lines
-				margin-top 13px
+				margin-top 15px
 
-width-comment-owner = 60px
-width-avatar = 32px
+			&.clickable
+				transition all .3s ease
+
+			&.clickable:hover
+				background #666
+				color white
+
+width-comment-owner = 80px
+width-avatar = 48px
 
 .idea-comment
 	clearfix()
@@ -135,7 +142,7 @@ width-avatar = 32px
 
 		time
 			@extend .text-right
-			padding-top (base-padding-ui-line * 2)
+			padding-top (base-padding-ui-line * 3)
 			display block
 
 /* pages: dashboard.html */
