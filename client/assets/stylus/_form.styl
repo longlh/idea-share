@@ -86,14 +86,19 @@ input[type="submit"]
 input[type="reset"]
 button
 .button
+	@extend .text-center
+	appearance button
 	display inline-block
 	border 1px solid color-control-border
 	padding space-form
 	height (height-form-line * 1.2)
+	line-height (height-form-line * 1.2 - space-form * 2)
 	background white
 	font-weight bold
 	min-width width-label
 	margin-bottom space-form
+	text-decoration none
+	color base-color-text
 
 	&:hover
 		hightlight-control color-control-border
@@ -116,9 +121,11 @@ button
 
 	&.button-low
 		height height-form-line
+		line-height (height-form-line - space-form * 2)
 
 	&.button-high
 		height (height-form-line * 1.4)
+		line-height (height-form-line * 1.4 - space-form * 2)
 
 	&.button-full.button-high
 		text-transform uppercase

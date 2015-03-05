@@ -16,16 +16,16 @@
 					<h2>Connect us via Social Networks</h2>
 				</div>
 				<div class="ui-line">
-					<button type="button">
-						<i class="fa fa-google fa-lg"></i>Google</button>
-					<button type="button">
-						<i class="fa fa-facebook fa-lg"></i>Facebook</button>
+					<a class="button" href="<%= @_url('page.invitation.google', { code: @invitation.code }) %>">
+						<i class="fa fa-google fa-lg"></i>Google</a>
+					<a class="button">
+						<i class="fa fa-facebook fa-lg"></i>Facebook</a>
 				</div>
 			</div>
 			<div class="col">
-				<form action="<%= @_url('page.invitation', { code: @invitation.code }) %>" method="post" autocomplete="off">
+				<form action="<%= @_url('page.invitation') %>" method="post" autocomplete="off">
 
-					<input type="hidden" name="invitation" value="<%= @invitation.id %>">
+					<input type="hidden" name="code" value="<%= @invitation.code %>">
 
 					<div class="ui-line">
 						<h2>Or please tell us a little about yourself</h2>

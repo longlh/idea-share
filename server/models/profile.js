@@ -58,7 +58,8 @@ var profileSchema = new Schema({
 			type: String,
 			required: true
 		},
-		avatar: String
+		avatar: String,
+		email: String
 	},
 	accounts: [accountSchema],
 	enable: {

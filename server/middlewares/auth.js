@@ -1,6 +1,7 @@
 'use strict';
 
 var passport = rek('server/libs/passport');
+var oauth = rek('env/profiles/all').oauth;
 
 var self = module.exports;
 
@@ -36,4 +37,16 @@ self.signOut = function(req, res, next) {
 	req.logout();
 
 	res._redirect('auth.sign-in');
+};
+
+self.googleSignIn = passport.authenticate('google', {
+	scope: [
+		'email',
+		'profile'
+	],
+	callbackURL: oauth.google.signIn
+});
+
+self.googleCallback = function(req, res, next) {
+
 };

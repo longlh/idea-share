@@ -13,7 +13,8 @@ module.exports = {
 		google: {
 			clientId: '19650001560-pktpk190g880rkb5eh388t1peamj993b.apps.googleusercontent.com',
 			clientSecret: 'C0jkAi4YG6RpgjrOb3lBDHnO',
-			callback: 'http://localhost:3002/oauth/google'
+			signIn: 'http://localhost:3002/oauth/google',
+			acceptInvitation: 'http://localhost:3002/oauth/google/invitation'
 		}
 	}
 };

@@ -28,6 +28,8 @@
 		});
 
 		$httpProvider.interceptors.push(errorInterceptor);
+		$httpProvider.defaults.headers.common['Cache-Control'] = 'no-cache';
+		$httpProvider.defaults.headers.common.Pragma = 'no-cache';
 	};
 
 	config.$inject = ['$httpProvider', '$routeProvider'];
