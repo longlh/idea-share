@@ -24,7 +24,7 @@
 		}).when('/404', {
 			templateUrl: '/modules/_core/views/404.html'
 		}).otherwise({
-			redirectTo: '/404'
+			redirectTo: '/dashboard'
 		});
 
 		$httpProvider.interceptors.push(errorInterceptor);

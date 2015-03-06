@@ -21,6 +21,11 @@ module.exports = function(app, passport) {
 
 	app.get('/oauth/google/invitation', invitation.googleConsumeInvitation);
 
+	app._route('page.invitation.facebook', '/auth/invitation/facebook/:code')
+			.get(invitation.facebookConnect);
+
+	app.get('/oauth/facebook/invitation', invitation.facebookConsumeInvitation);
+
 	app._route('auth.sign-in', '/auth/sign-in')
 			.get(auth.renderSignIn)
 			.post(auth.internalSignIn);
@@ -30,9 +35,11 @@ module.exports = function(app, passport) {
 
 	app.get('/oauth/google', auth.googleSignIn);
 
+	app._route('auth.sign-in.facebook', '/auth/connect/facebook')
+			.get(auth.facebookConnect);
+
+	app.get('/oauth/facebook', auth.facebookSignIn);
+
 	app._route('auth.sign-out', '/auth/sign-out')
 			.get(auth.signOut);
-
-	// app._route('oauth.google-callback', '/oauth/google')
-	// 		.get(auth.googleCallback);
 };

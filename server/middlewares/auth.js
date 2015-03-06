@@ -64,3 +64,16 @@ self.googleSignIn = function(req, res, next) {
 		signInFailed(req, res, err);
 	});
 };
+
+self.facebookConnect = oauth.facebook.requestSignIn;
+
+self.facebookSignIn = function(req, res, next) {
+	return oauth.facebook.handleSignIn(req, res, next).then(function done(data) {
+		return data.profile ?
+				data.profile : bird.reject(new Error('Profile not found'));
+	}).then(function done(profile) {
+		return signIn(req, res, profile);
+	}).catch(function handleError(err) {
+		signInFailed(req, res, err);
+	});
+};

@@ -158,3 +158,54 @@ self.googleConsumeInvitation = function(req, res, next) {
 		}, error);
 	});
 };
+
+self.facebookConnect = function(req, res, next) {
+	var code = req.params.code;
+
+	findInvitationByCode(code).then(function done(invitation) {
+		return oauth.facebook.requestInvite(code, req, res, next);
+	}).catch(function handleError(error) {
+		return invalidInvitation(res, {
+			code: code
+		}, error);
+	});
+};
+
+self.facebookConsumeInvitation = function(req, res, next) {
+	var code = req.query.state;
+	var consumingInvitation;
+
+	findInvitationByCode(code).then(function done(invitation) {
+		// store consuming invitation
+		consumingInvitation = invitation;
+
+		return oauth.facebook.handleInvite(req, res, next);
+	}).then(function oauthDone(data) {
+		if (data.profile) {
+			return bird.reject(new Error('Dupplicate Facebook account'));
+		}
+
+		var fbProfile = data.oauth;
+
+		if (!fbProfile) {
+			return bird.reject(new Error('Facebook Profile not found'));
+		}
+
+		return register({
+			accounts: [{
+				kind: 'facebook',
+				uid: fbProfile.id
+			}],
+			public: {
+				displayName: fbProfile.displayName,
+				email: fbProfile.emails[0] && fbProfile.emails[0].value
+			}
+		}, consumingInvitation);
+	}).then(function consumeDone(profile) {
+		return res._redirect('auth.sign-in');
+	}).catch(function handleError(error) {
+		return invalidInvitation(res, {
+			code: code
+		}, error);
+	});
+};

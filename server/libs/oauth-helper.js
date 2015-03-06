@@ -17,10 +17,10 @@ function callback(error, data, info) {
 	return bird.reject(new Error('Profile not found'));
 }
 
-function handleGoogleOAuth(url) {
+function handleOAuth(type, url) {
 	return function(req, res, next) {
 		return new bird.Promise(function promise(resolve, reject) {
-			var signIn = passport.authenticate('google', {
+			var signIn = passport.authenticate(type, {
 				callbackURL: url
 			}, function done(error, data, info) {
 				resolve(callback(error, data, info));
@@ -33,6 +33,10 @@ function handleGoogleOAuth(url) {
 
 var self = module.exports;
 
+/**
+ *	INTERNAL
+ **/
+
 self.internal = {};
 
 self.internal.handleSignIn = function(req, res, next) {
@@ -42,6 +46,10 @@ self.internal.handleSignIn = function(req, res, next) {
 		})(req, res, next);
 	});
 };
+
+/**
+ *	GOOGLE
+ **/
 
 self.google = {};
 
@@ -53,7 +61,7 @@ self.google.requestSignIn = passport.authenticate('google', {
 	callbackURL: oauth.google.signIn
 });
 
-self.google.handleSignIn = handleGoogleOAuth(oauth.google.signIn);
+self.google.handleSignIn = handleOAuth('google', oauth.google.signIn);
 
 self.google.requestInvite = function(state, req, res, next) {
 	var signIn = passport.authenticate('google', {
@@ -68,4 +76,33 @@ self.google.requestInvite = function(state, req, res, next) {
 	return signIn(req, res, next);
 };
 
-self.google.handleInvite = handleGoogleOAuth(oauth.google.acceptInvitation);
+self.google.handleInvite = handleOAuth('google', oauth.google.acceptInvitation);
+
+/**
+ *	FACEBOOK
+ **/
+
+ self.facebook = {};
+
+ self.facebook.requestSignIn = passport.authenticate('facebook', {
+	scope: [
+		'email'
+	],
+	callbackURL: oauth.facebook.signIn
+});
+
+ self.facebook.handleSignIn = handleOAuth('facebook', oauth.facebook.signIn);
+
+ self.facebook.requestInvite = function(state, req, res, next) {
+	var signIn = passport.authenticate('facebook', {
+		scope: [
+			'email'
+		],
+		state: state,
+		callbackURL: oauth.facebook.acceptInvitation
+	});
+
+	return signIn(req, res, next);
+};
+
+self.facebook.handleInvite = handleOAuth('facebook', oauth.facebook.acceptInvitation);
