@@ -25,8 +25,10 @@ module.exports = function(app, passport) {
 			.get(auth.renderSignIn)
 			.post(auth.internalSignIn);
 
-	// app._route('auth.sign-in.google', '/auth/connect/google')
-	// 		.get(auth.googleConnect);
+	app._route('auth.sign-in.google', '/auth/connect/google')
+			.get(auth.googleConnect);
+
+	app.get('/oauth/google', auth.googleSignIn);
 
 	app._route('auth.sign-out', '/auth/sign-out')
 			.get(auth.signOut);
