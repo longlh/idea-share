@@ -1,9 +1,21 @@
 <div class="top-heading">
 	<h1>dashboard</h1>
 </div>
-<div>
-	<div data-ng-repeat="idea in ideas track by $index" class="line-form break-half">
-		<a href="#/ideas/{{idea._id}}">{{idea.brief}}</a><br>
-		<span>{{idea.fragments.length}} fragment(s)</span>
+<div class="idea-list">
+	<div data-ng-repeat="idea in ideas track by $index" class="idea">
+		<div class="idea-owner">
+			<div class="avatar">
+				<i class="fa fa-user fa-fw fa-lg"></i>
+			</div>
+			<p class="idea-owner-name">{{idea.owner.public.displayName}}</p>
+		</div>
+		<div class="idea-content">
+			<div class="idea-brief">
+				<a href="#/ideas/{{idea._id}}">{{idea.brief}}</a>
+			</div>
+			<div class="first-fragment">
+				<span>{{idea.fragments[0].content}}</span>
+			</div>
+		</div>
 	</div>
 </div>

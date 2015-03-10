@@ -17,14 +17,14 @@
 
 	errorInterceptor.$inject = ['$location', '$q'];
 
-	var config = function($httpProvider, $routeProvider) {
+	var config = function($httpProvider, $locationProvider, $routeProvider) {
 
 		$routeProvider.when('/', {
 			redirectTo: '/dashboard'
 		}).when('/404', {
 			templateUrl: '/modules/_core/views/404.html'
 		}).otherwise({
-			redirectTo: '/dashboard'
+			redirectTo: '/404'
 		});
 
 		$httpProvider.interceptors.push(errorInterceptor);
@@ -32,7 +32,7 @@
 		$httpProvider.defaults.headers.common.Pragma = 'no-cache';
 	};
 
-	config.$inject = ['$httpProvider', '$routeProvider'];
+	config.$inject = ['$httpProvider', '$locationProvider', '$routeProvider'];
 
 	angular.module('app.core', [
 		'ngCookies', 'ngResource',

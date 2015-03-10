@@ -109,7 +109,7 @@ width-large-indicator = 35px
 				background #666
 				color white
 
-width-comment-owner = 80px
+width-owner = 80px
 width-avatar = 48px
 
 .idea-comment
@@ -119,7 +119,7 @@ width-avatar = 48px
 	.comment-owner
 		@extend .text-center
 		float right
-		width width-comment-owner
+		width width-owner
 
 		&.self
 			float left
@@ -136,7 +136,7 @@ width-avatar = 48px
 
 	.comment-content
 		padding base-padding-ui-line
-		margin 0 width-comment-owner
+		margin 0 width-owner
 		border 1px solid base-color-border
 		border-bottom none
 
@@ -146,6 +146,45 @@ width-avatar = 48px
 			display block
 
 /* pages: dashboard.html */
+
+.idea-list
+	clearfix()
+
+	.idea
+		clearfix()
+		float left
+		width 300px
+		margin 10px
+		padding 10px
+
+		.idea-owner
+			@extend .text-center
+			float left
+			width width-owner
+
+			.avatar
+				display inline-block
+				border 1px solid base-color-border
+				size width-avatar
+				line-height (width-avatar + 2)
+
+			.idea-owner-name
+				padding-top base-padding-ui-line
+				font-weight bold
+
+		.idea-content
+			margin-left width-owner
+			border 1px solid base-color-border
+			border-bottom none
+			padding base-padding-ui-line
+
+			.idea-brief
+				height width-avatar
+				padding-bottom base-padding-ui-line
+
+			.first-fragment
+				height 100px
+				overflow hidden
 
 /* directives */
 width-text-box-controls = 60px
@@ -171,12 +210,12 @@ width-text-box-controls = 60px
 		padding-right (base-padding-ui-line + width-text-box-controls)
 
 		&.inactive
-			border none
+			border-color transparent
 
 		&.inactive:hover
 		&.inactive:focus
 			box-shadow none
-			border none
+			border-color transparent
 
 .text-area-expandable
 	overflow hidden
@@ -198,9 +237,9 @@ width-text-box-controls = 60px
 		resize none
 
 		&.inactive
-			border none
+			border-color transparent
 
 		&.inactive:hover
 		&.inactive:focus
 			box-shadow none
-			border none
+			border-color transparent

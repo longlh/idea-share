@@ -8,6 +8,10 @@
 	]);
 
 	angular.element(document).ready(function() {
+		if (location.hash === '#_=_') {
+			location.hash = '';
+		}
+
 		angular.bootstrap(document, ['app']);
 	});
 }());

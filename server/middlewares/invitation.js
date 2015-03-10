@@ -198,7 +198,8 @@ self.facebookConsumeInvitation = function(req, res, next) {
 			}],
 			public: {
 				displayName: fbProfile.displayName,
-				email: fbProfile.emails[0] && fbProfile.emails[0].value
+				email: fbProfile.emails[0] && fbProfile.emails[0].value,
+				avatar: '//graph.facebook.com/' + fbProfile.id + '/picture?type=large'
 			}
 		}, consumingInvitation);
 	}).then(function consumeDone(profile) {

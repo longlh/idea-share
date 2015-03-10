@@ -1,23 +1,36 @@
 @import 'kouto-swiss'
 @require '_define.styl'
 
-padding-menu = 10px
-height-menu = 50px
-color-menu = extended-analogous(#51a9ff)
-
 .top-heading
 	height (padding-menu * 2 + height-menu)
 	line-height (padding-menu * 2 + height-menu)
-	margin-bottom (padding-menu * 2)
+	margin-left (padding-menu * 2 + height-menu)
+	margin-bottom height-menu
 
 	h1
 		display inline
+
+.logo
+	z-index 1
+	absolute 0 false false 0
+	padding (padding-menu / 2)
+	background inherit
+
+	.indie-codes
+		@extend .text-center
+		size (height-menu + padding-menu / 2)
+		background #333
+		text-transform uppercase
+		color white
+		line-height ((height-menu + padding-menu / 2) / 2)
+		font-weight bold
+		font-size 16px
 
 .top-menu
 	z-index 1
 	absolute 0 0 false false
 	color white
-	background white
+	background inherit
 	height (height-menu + padding-menu * 2)
 	padding padding-menu
 
@@ -38,7 +51,7 @@ color-menu = extended-analogous(#51a9ff)
 				white-space nowrap
 				text-transform uppercase
 				line-height height-menu
-				background black
+				background #333
 
 				&:hover
 					background #666

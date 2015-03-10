@@ -15,5 +15,5 @@
 		'app.share.models.Storage'
 	];
 
-	angular.module('app.core').directive('topSection', TopSection);
+	angular.module('app.core').directive('coTopSection', TopSection);
 }());
